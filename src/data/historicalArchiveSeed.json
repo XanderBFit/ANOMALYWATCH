@@ -1,0 +1,904 @@
+[
+  {
+    "id": "CASE-1952-DC-RADAR",
+    "collection": "CaseRecords",
+    "timestamp": "1952-07-19T23:40:00Z",
+    "eventDate": "1952-07-19",
+    "title": "Washington D.C. National Airspace Radar-Visual Incursion",
+    "category": "UAP / Aerospace Intercept",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 38.8512,
+      "lng": -77.0402,
+      "alt_ft": 7000
+    },
+    "locationName": "Washington, D.C., USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.95,
+    "sensorSignatures": [
+      "Air Route Traffic Control Primary Radar",
+      "Andrews AFB Radar",
+      "F-94 Interceptor Optical Tracking"
+    ],
+    "primarySources": [
+      "USAF Project Blue Book",
+      "Civil Aeronautics Administration Records"
+    ],
+    "summary": "Multiple high-speed unidentified radar targets tracked simultaneously by Washington National Airport, Andrews AFB, and intercepted visually by USAF F-94 Starfires over the White House and Capitol.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Multi-Radar + Visual Intercept)",
+      "telemetryLog": "Targets tracked at speeds from 100 to 7,000 mph with instant hovering capability. Temperature inversion hypothesis officially refuted by radar operator telemetry logs.",
+      "falsePositivesEliminated": [
+        "Commercial airframes (zero flight plans filed)",
+        "Bird flocks (speeds exceeded 7,000 mph)",
+        "Thermal weather inversion (inadequate refractive index gradient)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1956-SOLAR-GLE05",
+    "collection": "SignalArchive",
+    "timestamp": "1956-02-23T03:34:00Z",
+    "eventDate": "1956-02-23",
+    "title": "Great Solar Cosmic Ray Ground-Level Enhancement (GLE05)",
+    "category": "Space Weather / Solar Physics",
+    "domain": "Space Weather",
+    "coordinates": {
+      "lat": 0.0,
+      "lng": 0.0,
+      "alt_ft": 0
+    },
+    "locationName": "Global Magnetosphere / Leeds & Climax Observatories",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.99,
+    "sensorSignatures": [
+      "Neutron Monitors",
+      "Ionization Chambers",
+      "Magnetometers"
+    ],
+    "primarySources": [
+      "NOAA SWPC Historical Archive",
+      "International Geophysical Year Datasets"
+    ],
+    "summary": "Massive solar flare produced the largest ground-level cosmic ray enhancement (GLE05) in modern scientific history, increasing surface neutron monitor counts by up to 5,000%.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Global Sensor Network)",
+      "telemetryLog": "Solar proton flux exceeded relativistic thresholds, causing widespread ionospheric absorption and global high-frequency radio blackouts.",
+      "falsePositivesEliminated": [
+        "Atmospheric radiation baseline shift",
+        "Sensor malfunction (confirmed across 20+ worldwide observatories)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1957-LEVELLAND-EM",
+    "collection": "CaseRecords",
+    "timestamp": "1957-11-02T22:50:00Z",
+    "eventDate": "1957-11-02",
+    "title": "Levelland Electromagnetic Interference Wave",
+    "category": "UAP / EM Anomaly",
+    "domain": "Aerospace & Electromagnetics",
+    "coordinates": {
+      "lat": 33.5873,
+      "lng": -102.378,
+      "alt_ft": 300
+    },
+    "locationName": "Levelland, Hockley County, Texas, USA",
+    "severity": "HIGH",
+    "confidenceScore": 0.88,
+    "sensorSignatures": [
+      "Automotive Electrical System Disruption",
+      "Law Enforcement Ground Reporting"
+    ],
+    "primarySources": [
+      "Hockley County Sheriff's Dept",
+      "USAF Project Blue Book"
+    ],
+    "summary": "Large egg-shaped luminous craft hovered over roadways, causing sudden simultaneous internal combustion engine stalls and headlight blackouts across multiple independent vehicles.",
+    "caseDossier": {
+      "evidenceTier": "Tier-2 (Multi-Witness Physical EM Interference)",
+      "telemetryLog": "Over 10 separate vehicles stalled within a 2-hour window within a 15-mile radius. Engines restarted instantly once object ascended.",
+      "falsePositivesEliminated": [
+        "Ball lightning (duration and structured geometry inconsistent)",
+        "Weather phenomenon (night was clear with light breeze)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1960-VALDIVIA-M95",
+    "collection": "SignalArchive",
+    "timestamp": "1960-05-22T19:11:14Z",
+    "eventDate": "1960-05-22",
+    "title": "Great Valdivia Megathrust Earthquake (M9.5)",
+    "category": "Seismic & Tectonic Megashock",
+    "domain": "Seismic / Marine",
+    "coordinates": {
+      "lat": -38.143,
+      "lng": -73.407,
+      "alt_ft": -108000
+    },
+    "locationName": "Valdivia, Chile",
+    "severity": "CRITICAL",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "Worldwide Seismograph Stations",
+      "Pacific Tide Gauge Networks"
+    ],
+    "primarySources": [
+      "USGS Earthquake Hazards Program",
+      "NOAA National Geophysical Data Center"
+    ],
+    "summary": "The most powerful earthquake ever recorded instrumentally (M9.5), releasing seismic energy equivalent to 2.7 million Hiroshima bombs and initiating trans-Pacific tsunamis.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Global Instrumental Seismic Network)",
+      "telemetryLog": "Rupture zone spanned 1,000 km along the Peru-Chile Trench. Earth's free oscillation was recorded globally for months.",
+      "falsePositivesEliminated": [
+        "Local volcanic detonation",
+        "Instrument calibration error"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1965-KECKSBURG-BOLIDE",
+    "collection": "CaseRecords",
+    "timestamp": "1965-12-09T21:45:00Z",
+    "eventDate": "1965-12-09",
+    "title": "Kecksburg Acorn Object & Acoustic Bolide Recovery",
+    "category": "Celestial Bolide / Aerospace Recovery",
+    "domain": "Celestial & Aerospace",
+    "coordinates": {
+      "lat": 40.1837,
+      "lng": -79.5298,
+      "alt_ft": 1200
+    },
+    "locationName": "Kecksburg, Westmoreland County, Pennsylvania, USA",
+    "severity": "HIGH",
+    "confidenceScore": 0.85,
+    "sensorSignatures": [
+      "Seismic Shockwave (Detroit & Pittsburgh)",
+      "Optical All-Sky Cameras"
+    ],
+    "primarySources": [
+      "FAA Flight Records",
+      "US Army 662nd Radar Squadron Log",
+      "NASA Historical Archives"
+    ],
+    "summary": "Supersonic fireball tracked over Ontario, Michigan, Ohio, and Pennsylvania, creating acoustic shockwaves and soft-landing an acorn-shaped object secured under military quarantine.",
+    "caseDossier": {
+      "evidenceTier": "Tier-2 (Seismic Shock + Military Quarantine Deployment)",
+      "telemetryLog": "Trajectory exhibited non-ballistic deceleration and banking turn over Pennsylvania prior to touchdown.",
+      "falsePositivesEliminated": [
+        "Kosmos 96 satellite re-entry (orbital timing decayed 12 hours earlier over Canada)",
+        "Natural meteorite (evidence of controlled deceleration reported)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1967-MALMSTROM-ICBM",
+    "collection": "CaseRecords",
+    "timestamp": "1967-03-24T08:30:00Z",
+    "eventDate": "1967-03-24",
+    "title": "Malmstrom AFB Minuteman Missile System Shutdown",
+    "category": "Aerospace / Strategic Defense Incursion",
+    "domain": "Aerospace & Defense",
+    "coordinates": {
+      "lat": 47.5036,
+      "lng": -111.1834,
+      "alt_ft": 3400
+    },
+    "locationName": "Malmstrom AFB, Great Falls, Montana, USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.96,
+    "sensorSignatures": [
+      "Launch Control Facility Guidance Computer Telemetry",
+      "Security Alert Team Radar/Optical"
+    ],
+    "primarySources": [
+      "Strategic Air Command (SAC) Logs",
+      "USAF Flight Crew Declassified Affidavits"
+    ],
+    "summary": "Luminous red glowing disc hovered over Oscar and Echo Launch Control Facilities, systematically placing 10 Minuteman I ICBMs into 'No-Go' unlaunchable status within seconds.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Military Hardware Telemetry & Combat Readiness Log)",
+      "telemetryLog": "Independent, isolated hardened guidance cables experienced simultaneous electronic shutdown without commercial power grid interruption.",
+      "falsePositivesEliminated": [
+        "Commercial power surge",
+        "Software logic bug (Echo and Oscar flights used separate isolated wiring networks)",
+        "Sabotage (no physical perimeter breach)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1972-SOLAR-MINE-DET",
+    "collection": "SignalArchive",
+    "timestamp": "1972-08-04T06:21:00Z",
+    "eventDate": "1972-08-04",
+    "title": "Ultra-Fast Solar CME & Spontaneous Naval Sea Mine Detonations",
+    "category": "Space Weather / Geomagnetic Warfare",
+    "domain": "Space Weather & Marine",
+    "coordinates": {
+      "lat": 20.8444,
+      "lng": 106.7744,
+      "alt_ft": 0
+    },
+    "locationName": "Hon La / Haiphong Coastal Waters, Vietnam & Global",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.98,
+    "sensorSignatures": [
+      "US Navy Airborne Sonar/Optical Observers",
+      "Solar Magnetographs (NOAA)",
+      "OGO-5 Satellite"
+    ],
+    "primarySources": [
+      "US Navy Project Operation Pocket Money Declassified Report",
+      "NOAA Space Weather Archive"
+    ],
+    "summary": "Carrington-class CME reached Earth in record 14.6 hours, inducing rapid geomagnetic gradient (dB/dt) that spontaneously detonated dozens of magnetic-influence naval sea mines.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Military Fleet Telemetry + Satellite Sensor)",
+      "telemetryLog": "Induced electrical telluric current exceeded 0.1 Gauss/sec threshold required to trigger Destructor magnetic naval mine firing mechanisms.",
+      "falsePositivesEliminated": [
+        "Hostile mine countermeasures",
+        "Spontaneous ordnance malfunction (detonations coincided within minutes of geomagnetic sudden commencement)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1976-TEHRAN-F4",
+    "collection": "CaseRecords",
+    "timestamp": "1976-09-19T01:30:00Z",
+    "eventDate": "1976-09-19",
+    "title": "Tehran F-4 Phantom Radar-Optical Weapons Lock Intercept",
+    "category": "Aerospace / Military Electronic Warfare",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 35.6892,
+      "lng": 51.389,
+      "alt_ft": 11000
+    },
+    "locationName": "Tehran, Iran",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.94,
+    "sensorSignatures": [
+      "Westinghouse AN/APQ-120 Airborne Radar",
+      "Mehrabad Airport Tower Radar",
+      "US Defense Intelligence Agency Memo"
+    ],
+    "primarySources": [
+      "Imperial Iranian Air Force Declassified Incident Report",
+      "US DIA Intelligence Assessment Report"
+    ],
+    "summary": "Two IIAF F-4 Phantom II interceptors attempted missile locks on a multi-colored luminous craft; primary avionics, radios, and weapons release circuits completely jammed during lock-on.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Joint Military Radar Track + Airborne Radar Lock)",
+      "telemetryLog": "Object released smaller subsidiary scout orb that executed hyper-velocity landing and rendezvous. F-4 radar cross section measured equivalent to a Boeing 707.",
+      "falsePositivesEliminated": [
+        "Jupiter (object maneuvered, tracked on radar, and launched sub-craft)",
+        "Airborne electronic warfare aircraft (no foreign military flights in sector)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1977-WOW-SIGNAL",
+    "collection": "SignalArchive",
+    "timestamp": "1977-08-15T02:16:00Z",
+    "eventDate": "1977-08-15",
+    "title": "The 'Wow!' Narrowband Extraterrestrial RF Burst",
+    "category": "Deep Space RF Anomaly",
+    "domain": "Celestial / Radio Astronomy",
+    "coordinates": {
+      "lat": 40.2458,
+      "lng": -83.0478,
+      "alt_ft": 900
+    },
+    "locationName": "Big Ear Radio Observatory, Delaware, Ohio, USA",
+    "severity": "HIGH",
+    "confidenceScore": 0.92,
+    "sensorSignatures": [
+      "50-Channel Big Ear Radio Receiver (1420.4556 MHz)"
+    ],
+    "primarySources": [
+      "Ohio State University Radio Observatory Datasets",
+      "Dr. Jerry R. Ehman Research Logs"
+    ],
+    "summary": "Unexplained 72-second narrowband continuous wave radio signal at the 21 cm Hydrogen Line (1420.4556 MHz), matching the exact spatial beam profile of an extraterrestrial source (6EQUJ5).",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Calibrated Scientific Radio Telescope Data)",
+      "telemetryLog": "Signal strength reached 30 standard deviations above background noise. Bandwidth <10 kHz. Signal located near Chi Sagittarii.",
+      "falsePositivesEliminated": [
+        "Terrestrial reflection (1420 MHz is protected astronomical band)",
+        "Satellite transmission (no satellite in beam pattern)",
+        "Aircraft / ground radar (signal followed sidereal coordinate movement)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1980-RENDLESHAM",
+    "collection": "CaseRecords",
+    "timestamp": "1980-12-26T03:00:00Z",
+    "eventDate": "1980-12-26",
+    "title": "Rendlesham Forest Nuclear Base Radiation & Landing Event",
+    "category": "Aerospace & Nuclear Security",
+    "domain": "Aerospace & Radiation",
+    "coordinates": {
+      "lat": 52.0864,
+      "lng": 1.4338,
+      "alt_ft": 50
+    },
+    "locationName": "RAF Bentwaters / Woodbridge, Suffolk, UK",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.95,
+    "sensorSignatures": [
+      "AN/PDR-27 Radiation Survey Meter (Beta/Gamma)",
+      "RAF Watton Radar Logs",
+      "Audio Dispatch Recording (Lt Col Halt)"
+    ],
+    "primarySources": [
+      "USAF Memo by Lt Col Charles Halt",
+      "UK Ministry of Defence Declassified Files"
+    ],
+    "summary": "USAF security personnel and Deputy Base Commander tracked triangular metallic craft landing in forest adjacent to tactical nuclear weapons bunker; measured radiation levels 25x above background.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Physical Depressions + Beta/Gamma Radiation Telemetry + Base Commander Audio)",
+      "telemetryLog": "Triangular landing gear depressions (7-inch depth, 9-ft spacing) analyzed with Geiger-Muller counters; central depression registered localized peak radioactive ionization.",
+      "falsePositivesEliminated": [
+        "Orfordness Lighthouse (optical sweep angle physically blocked by tree canopy at landing site)",
+        "Prank / hoax (confirmed by Base Commander and RAF radar)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1986-JAL1628",
+    "collection": "CaseRecords",
+    "timestamp": "1986-11-17T17:11:00Z",
+    "eventDate": "1986-11-17",
+    "title": "Japan Air Lines Flight 1628 Multi-Radar Tracking",
+    "category": "Aerospace / Commercial Aviation Intercept",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 65.25,
+      "lng": -148.5,
+      "alt_ft": 35000
+    },
+    "locationName": "Yukon Basin, Alaska, USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.97,
+    "sensorSignatures": [
+      "JAL 1628 B-747 Digital Weather Radar",
+      "FAA Anchorage ARSR Primary Radar",
+      "USAF Regional Operations Control Center (ROCC) Military Radar"
+    ],
+    "primarySources": [
+      "FAA Division of Accidents and Investigations Final Dossier",
+      "Captain Kenju Terauchi Flight Log"
+    ],
+    "summary": "Boeing 747 cargo flight shadowed for 50 minutes over 350 miles by two smaller craft and a massive 'two-aircraft-carrier-sized' mothership, confirmed simultaneously on onboard and ground primary radars.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Multi-Station Ground Primary Radar + Onboard Digital Radar + Crew Visual)",
+      "telemetryLog": "FAA radar recorded target jumping positions instantly and matching B-747 course changes while emitting zero secondary transponder squawk.",
+      "falsePositivesEliminated": [
+        "Jupiter / Mars optical illusion (objects tracked on active phased ground and airborne radar)",
+        "Stealth prototype (maneuvering volume and mothership dimensions exceeded all known airframes)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1989-QUEBEC-BLACKOUT",
+    "collection": "SignalArchive",
+    "timestamp": "1989-03-13T07:44:00Z",
+    "eventDate": "1989-03-13",
+    "title": "Hydro-Québec Power Grid Geomagnetic Storm Collapse",
+    "category": "Space Weather / Geomagnetic Grid Failure",
+    "domain": "Space Weather & Power Grid",
+    "coordinates": {
+      "lat": 53.0,
+      "lng": -70.0,
+      "alt_ft": 0
+    },
+    "locationName": "Quebec, Canada & North America",
+    "severity": "CRITICAL",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "Hydro-Québec Static Var Compensator Telemetry",
+      "GOES-7 Magnetometer",
+      "USGS Magnetic Observatories"
+    ],
+    "primarySources": [
+      "Hydro-Québec Official Incident Report",
+      "NOAA Space Weather Prediction Center"
+    ],
+    "summary": "Severe G5 geomagnetic storm induced ground telluric currents that saturated transformer cores and tripped circuit breakers, plunging 6 million people into total electrical blackout within 90 seconds.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Direct Industrial Telemetry + Satellite Magnetometry)",
+      "telemetryLog": "Auroral electrojet induced hundreds of amperes of direct current into high-voltage transmission lines; auroras observed in Florida, Cuba, and Texas.",
+      "falsePositivesEliminated": [
+        "Mechanical grid failure",
+        "Cyber or physical sabotage"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1989-BELGIAN-WAVE",
+    "collection": "CaseRecords",
+    "timestamp": "1990-03-30T23:00:00Z",
+    "eventDate": "1990-03-30",
+    "title": "Belgian Air Force F-16 Triangular Craft Lock-On Flap",
+    "category": "Aerospace / NATO Fighter Intercept",
+    "domain": "Aerospace & Defense",
+    "coordinates": {
+      "lat": 50.8503,
+      "lng": 4.3517,
+      "alt_ft": 9000
+    },
+    "locationName": "Wavre & Glons, Belgium",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.96,
+    "sensorSignatures": [
+      "NATO Glons & Semmerzake Ground Radars",
+      "Belgian Air Force F-16A APG-66 Airborne Radars (2 Aircraft)"
+    ],
+    "primarySources": [
+      "Belgian Air Force Report (Maj Gen Wilfried De Brouwer)",
+      "Belgian Ministry of Defence Telemetry Tapes"
+    ],
+    "summary": "Belgian Air Force scrambled two F-16 fighters to intercept low-flying triangular craft; F-16 radar locked on target 9 times as it dropped from 10,000 ft to 500 ft in 1 second (40G acceleration) with zero sonic boom.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Dual Airborne APG-66 Radar Tapes + Ground Radar Interlock)",
+      "telemetryLog": "F-16 APG-66 lock-on broke repeatedly as target matched fighter speed changes and executed instant high-G vertical vector shifts exceeding structural limits of human biology.",
+      "falsePositivesEliminated": [
+        "F-117A Nighthawk Stealth Fighter (Belgium confirmed no stealth missions; F-117 cannot execute 40G vertical dives)",
+        "Atmospheric thermal ducting (target evaded and broke lock actively)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1997-PHOENIX-LIGHTS",
+    "collection": "CaseRecords",
+    "timestamp": "1997-03-13T20:15:00Z",
+    "eventDate": "1997-03-13",
+    "title": "Phoenix Lights Multi-State Kilometer-Wide V-Formation",
+    "category": "Aerospace / Mass Sighting Corridor",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 33.4484,
+      "lng": -112.074,
+      "alt_ft": 4500
+    },
+    "locationName": "Phoenix & Statewide Corridor, Arizona, USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.92,
+    "sensorSignatures": [
+      "Civilian Video Telemetry (50+ Tapes)",
+      "Sky Harbor International Airport Visual Logs"
+    ],
+    "primarySources": [
+      "Arizona Dept of Public Safety",
+      "City of Phoenix Council Records (Gov. Fife Symington Confession)"
+    ],
+    "summary": "Kilometer-wide V-shaped craft with embedded amber lights traversed a 300-mile corridor from Nevada across Prescott, Phoenix, and Tucson over 3 hours at silent, low-altitude glide speed.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Multi-Angle Video Triangulation + Thousands of Witness Records)",
+      "telemetryLog": "Video geometric triangulation confirmed solid structure blocking background stars; event occurred 2 hours prior to Maryland Air National Guard flare drop at Barry M. Goldwater Range.",
+      "falsePositivesEliminated": [
+        "LUU-2 Military illumination flares (flares dropped at 10:00 PM over Goldwater Range, while primary V-craft traversed Phoenix at 8:30 PM)",
+        "Planes in formation (zero noise and occlusion of star background)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1997-BLOOP-INFRASOUND",
+    "collection": "SignalArchive",
+    "timestamp": "1997-05-19T06:00:00Z",
+    "eventDate": "1997-05-19",
+    "title": "The 'Bloop' Ultra-Low Frequency Oceanic Acoustic Surge",
+    "category": "Marine / Oceanic Acoustic Anomaly",
+    "domain": "Oceanic Infrasound",
+    "coordinates": {
+      "lat": -50.0,
+      "lng": -100.0,
+      "alt_ft": -13000
+    },
+    "locationName": "Equatorial Pacific Ocean Deep Sound Channel",
+    "severity": "MEDIUM",
+    "confidenceScore": 0.9,
+    "sensorSignatures": [
+      "NOAA Equatorial Pacific Autonomous Hydrophone Array (SOSUS)"
+    ],
+    "primarySources": [
+      "NOAA Pacific Marine Environmental Laboratory (PMEL)",
+      "US Navy Undersea Warfare Archives"
+    ],
+    "summary": "Ultra-low frequency high-amplitude acoustic signal detected across hydrophone sensors separated by over 5,000 km, exhibiting spectral characteristics of cryogenic iceberg fracturing.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Calibrated Hydrophone Array Cross-Correlation)",
+      "telemetryLog": "Signal frequency swept upward over several minutes with source amplitude exceeding largest biological marine mammal emissions by several orders of magnitude.",
+      "falsePositivesEliminated": [
+        "Biological marine creature (energy requirement exceeds biological constraints)",
+        "Submarine explosion (lacked explosive shockwave profile)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2003-HALLOWEEN-SOLAR",
+    "collection": "SignalArchive",
+    "timestamp": "2003-10-28T11:10:00Z",
+    "eventDate": "2003-10-28",
+    "title": "Halloween Solar Superstorms & Off-Scale X28+ Flare",
+    "category": "Space Weather / Extreme Solar Activity",
+    "domain": "Space Weather",
+    "coordinates": {
+      "lat": 0.0,
+      "lng": 0.0,
+      "alt_ft": 0
+    },
+    "locationName": "Active Region 10486 / Sun-Earth System",
+    "severity": "CRITICAL",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "GOES-12 X-Ray Sensor",
+      "SOHO LASCO Coronagraph",
+      "ACE Spacecraft Solar Wind Telemetry"
+    ],
+    "primarySources": [
+      "NOAA Space Environment Center",
+      "NASA SOHO Science Team"
+    ],
+    "summary": "Series of intense solar eruptions, culminating in an off-scale X28+ flare (estimated X45) that blinded the GOES satellite detector, forced ISS astronauts to seek shelter, and disabled Japanese ADEOS-2 satellite.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Spacecraft & Ground Multi-Spectral Sensor Array)",
+      "telemetryLog": "CME velocity exceeded 2,400 km/s. Geomagnetic Kp index pegged at 9. Aircraft rerouted around polar routes for weeks due to high-altitude radiation.",
+      "falsePositivesEliminated": [
+        "Sensor saturation artifact (validated by SOHO, ACE, and ground magnetometers)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2004-NIMITZ-TICTAC",
+    "collection": "CaseRecords",
+    "timestamp": "2004-11-14T18:00:00Z",
+    "eventDate": "2004-11-14",
+    "title": "USS Nimitz Carrier Strike Group 'Tic Tac' Radar-FLIR Intercept",
+    "category": "Aerospace / Carrier Strike Group Combat Intercept",
+    "domain": "Aerospace & Defense",
+    "coordinates": {
+      "lat": 31.488,
+      "lng": -117.882,
+      "alt_ft": 20000
+    },
+    "locationName": "Pacific Ocean (100 mi SW of San Diego), California, USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.99,
+    "sensorSignatures": [
+      "AN/SPY-1B Phased Array Radar (USS Princeton)",
+      "Raytheon AN/ASQ-228 ATFLIR Pod",
+      "E-2C Hawkeye Airborne Early Warning Radar",
+      "F/A-18F Pilot Visual Tracking"
+    ],
+    "primarySources": [
+      "US Navy Executive Summary Report",
+      "Commander David Fravor & Lt. Cmdr. Alex Dietrich Sworn Testimony"
+    ],
+    "summary": "40-foot smooth white oblong object with no wings, control surfaces, or thermal exhaust tracked descending from 80,000 ft to sea level in 0.78 seconds; outmaneuvered two F/A-18F Super Hornets and appeared at pre-designated CAP point.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Multi-Platform Phased Radar + FLIR Targeting Video + Eyewitness Aviators)",
+      "telemetryLog": "Calculated acceleration exceeded 100G with estimated power output in excess of several gigawatts. Disturbed water surface with underwater cross-shaped signature noted.",
+      "falsePositivesEliminated": [
+        "Drones / Black project airframes (aerodynamic acceleration and lack of thermal signature violates current aerospace engineering limits)",
+        "Radar glitch (confirmed simultaneously on Aegis combat system, airborne E-2C, and optical FLIR)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2008-TC3-FIRST-IMPACT",
+    "collection": "SignalArchive",
+    "timestamp": "2008-10-07T02:46:00Z",
+    "eventDate": "2008-10-07",
+    "title": "Asteroid 2008 TC3 First Pre-Impact Tracking & Atmospheric Entry",
+    "category": "Celestial Bolide / Planetary Defense",
+    "domain": "Celestial & Planetary Defense",
+    "coordinates": {
+      "lat": 20.7,
+      "lng": 32.2,
+      "alt_ft": 120000
+    },
+    "locationName": "Nubian Desert, Northern Sudan",
+    "severity": "HIGH",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "Catalina Sky Survey Telescopes",
+      "Meteosat-8 Satellite",
+      "CTBTO Infrasound Station (IS32 Kenya)"
+    ],
+    "primarySources": [
+      "NASA CNEOS / JPL Small-Body Database",
+      "University of Khartoum Search Expedition"
+    ],
+    "summary": "First asteroid tracked in space prior to hitting Earth's atmosphere; impact time and coordinates predicted 19 hours in advance; recovered as Almahata Sitta meteorites.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Astronomical Orbital Tracking + Satellite Optical + Infrasound + Ground Meteorite Recovery)",
+      "telemetryLog": "4-meter meteoroid entered at 12.8 km/s, exploding at 37 km altitude with 1.1 kt TNT energy equivalence.",
+      "falsePositivesEliminated": [
+        "Space debris re-entry (orbital trajectory originated in main asteroid belt)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2011-TOHOKU-M91",
+    "collection": "SignalArchive",
+    "timestamp": "2011-03-11T05:46:24Z",
+    "eventDate": "2011-03-11",
+    "title": "Tohoku Megathrust Earthquake & GPS Crustal Displacement (M9.1)",
+    "category": "Seismic & Tectonic Megashock",
+    "domain": "Seismic / Marine",
+    "coordinates": {
+      "lat": 38.297,
+      "lng": 142.373,
+      "alt_ft": -95000
+    },
+    "locationName": "Tohoku Coast / Honshu, Japan",
+    "severity": "CRITICAL",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "GEONET GPS Continuous Array (Japan)",
+      "Global Seismographic Network",
+      "DART Tsunami Buoys"
+    ],
+    "primarySources": [
+      "USGS Earthquake Hazards Program",
+      "Geospatial Information Authority of Japan (GSI)"
+    ],
+    "summary": "M9.1 subduction earthquake displaced Honshu mainland 2.4 meters eastward, altered Earth's rotational axis by 17 cm, and generated a 40-meter tsunami wave causing the Fukushima Daiichi event.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (High-Density GPS Array + Ocean Floor Pressure Sensors)",
+      "telemetryLog": "Fault slip exceeded 50 meters near trench. Total seismic moment release 3.9e22 N-m.",
+      "falsePositivesEliminated": [
+        "Volcanic deflation",
+        "Instrument saturation"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2013-CHELYABINSK-BOLIDE",
+    "collection": "SignalArchive",
+    "timestamp": "2013-02-15T03:20:26Z",
+    "eventDate": "2013-02-15",
+    "title": "Chelyabinsk 500-Kiloton Superbolide Atmospheric Detonation",
+    "category": "Celestial Bolide / Atmospheric Shockwave",
+    "domain": "Celestial & Infrasound",
+    "coordinates": {
+      "lat": 54.8167,
+      "lng": 61.1167,
+      "alt_ft": 97000
+    },
+    "locationName": "Chelyabinsk Oblast, Urals Region, Russia",
+    "severity": "CRITICAL",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "CTBTO Global Infrasound Network (20+ Stations)",
+      "US Government Early Warning Satellites",
+      "Dashcam Calibrated Video Triangulation"
+    ],
+    "primarySources": [
+      "NASA CNEOS Fireball Database",
+      "Comprehensive Nuclear-Test-Ban Treaty Organization (CTBTO)"
+    ],
+    "summary": "20-meter near-Earth asteroid entered atmosphere at 19.2 km/s and detonated at 29.7 km altitude with 500 kt TNT equivalent energy, sending infrasound waves circling the globe twice.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Multi-Satellite Infrared + Global Infrasound + Meteorite Recovery from Lake Chebarkul)",
+      "telemetryLog": "Shockwave blew out windows in 7,200 buildings across 6 cities; peak optical brightness exceeded the Sun by a factor of 30.",
+      "falsePositivesEliminated": [
+        "Air defense missile intercept",
+        "High-altitude nuclear test (CTBTO confirmed pure kinetic bolide disintegration)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2014-GIMBAL-ROOSEVELT",
+    "collection": "CaseRecords",
+    "timestamp": "2015-01-20T14:30:00Z",
+    "eventDate": "2015-01-20",
+    "title": "USS Theodore Roosevelt 'Gimbal' & 'GoFast' ATFLIR Encounters",
+    "category": "Aerospace / Naval Strike Group FLIR Encounters",
+    "domain": "Aerospace & Defense",
+    "coordinates": {
+      "lat": 30.5,
+      "lng": -79.8,
+      "alt_ft": 25000
+    },
+    "locationName": "Atlantic Ocean (Off Coast of Florida / Georgia), USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.98,
+    "sensorSignatures": [
+      "Raytheon AN/ASQ-228 ATFLIR Pod",
+      "AN/APG-79 AESA Radar",
+      "F/A-18F Super Hornet Pilot Audio"
+    ],
+    "primarySources": [
+      "US Department of Defense (DoD) Declassified Videos",
+      "Navy Aviator Testimonies (Lt. Ryan Graves)"
+    ],
+    "summary": "Navy Super Hornets operating off USS Theodore Roosevelt captured footage of 'Gimbal'—a saucer-like object flying against 120-knot winds that rotated on its axis—and 'GoFast', skimmed low over ocean waters with zero thermal exhaust plume.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (AESA Phased Array Radar + Targeting FLIR Pod Tapes + Declassified DOD Release)",
+      "telemetryLog": "Objects observed remaining on station for 12+ hours with no visible propulsion or thermal exhaust plumes, maneuvering inside active military Warning Area W-72.",
+      "falsePositivesEliminated": [
+        "Commercial weather balloons (AESA radar tracked sustained stationary hold in hurricane-force high-altitude winds)",
+        "Foreign surveillance drone (no batteries/engines capable of 12+ hour station time at high Mach)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2017-OUMUAMUA-INTERSTELLAR",
+    "collection": "SignalArchive",
+    "timestamp": "2017-10-19T05:00:00Z",
+    "eventDate": "2017-10-19",
+    "title": "1I/'Oumuamua First Interstellar Object Non-Gravitational Acceleration",
+    "category": "Celestial / Interstellar Object",
+    "domain": "Celestial Astronomy",
+    "coordinates": {
+      "lat": 0.0,
+      "lng": 0.0,
+      "alt_ft": 0
+    },
+    "locationName": "Solar System Hyperbolic Orbit (Pan-STARRS 1)",
+    "severity": "HIGH",
+    "confidenceScore": 0.96,
+    "sensorSignatures": [
+      "Pan-STARRS 1 Survey Telescope",
+      "Hubble Space Telescope",
+      "ESO Very Large Telescope (VLT)"
+    ],
+    "primarySources": [
+      "Minor Planet Center (MPC) Circulars",
+      "NASA Jet Propulsion Laboratory (JPL) Horizons"
+    ],
+    "summary": "First interstellar object detected passing through the solar system on a hyperbolic trajectory (e=1.20), exhibiting anomalous non-gravitational acceleration with zero visible cometary comag or outgassing dust.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Hubble + VLT Optical Spectroscopy & Astrometry)",
+      "telemetryLog": "Extreme aspect ratio (10:1 elongation or flat disc profile). Acceleration deviation from pure gravity reached 4.92e-6 m/s^2 without thermal gas signatures.",
+      "falsePositivesEliminated": [
+        "Standard comet (Spitzer IR telescope detected zero carbon-based gas emissions)",
+        "Solar System asteroid (eccentricity e=1.20 proved hyperbolic interstellar origin)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2022-HUNGA-TONGA",
+    "collection": "SignalArchive",
+    "timestamp": "2022-01-15T04:14:45Z",
+    "eventDate": "2022-01-15",
+    "title": "Hunga Tonga Volcanic Mesospheric Plume & Global Pressure Wave",
+    "category": "Atmospheric & Ionospheric Megashock",
+    "domain": "Atmospheric / Seismic / Satellite",
+    "coordinates": {
+      "lat": -20.536,
+      "lng": -175.382,
+      "alt_ft": 190000
+    },
+    "locationName": "Hunga Tonga-Hunga Ha'apai, Kingdom of Tonga",
+    "severity": "CRITICAL",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "GOES-17 & Himawari-8 Geostationary Satellites",
+      "Global Barometer Barograph Arrays",
+      "GNSS Ionospheric Total Electron Content (TEC)"
+    ],
+    "primarySources": [
+      "NASA Earth Observatory",
+      "USGS Volcanic Hazards Program",
+      "NOAA SWPC"
+    ],
+    "summary": "Submarine volcanic eruption pushed an ash plume 57 km high into the mesosphere; acoustic atmospheric Lamb wave circled the globe 4 times and created equatorial plasma bubbles in the ionosphere.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Global Weather Barometer Network + Multi-Satellite Geostationary Imagery)",
+      "telemetryLog": "Atmospheric pressure jump of 2.5 hPa recorded worldwide. Shockwave generated meteotsunamis in the Caribbean and Mediterranean basins.",
+      "falsePositivesEliminated": [
+        "High-yield nuclear atmospheric test (confirmed volcanic magmatic-water interaction)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2023-NORTH-AMERICA-SHOOTDOWNS",
+    "collection": "CaseRecords",
+    "timestamp": "2023-02-10T18:45:00Z",
+    "eventDate": "2023-02-10",
+    "title": "North American Aerospace High-Altitude Shootdowns Flap",
+    "category": "Aerospace / Kinetic Military Intercepts",
+    "domain": "Aerospace & Defense",
+    "coordinates": {
+      "lat": 70.4,
+      "lng": -148.5,
+      "alt_ft": 40000
+    },
+    "locationName": "Deadhorse (Alaska), Yukon Territory (Canada), Lake Huron (USA)",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.97,
+    "sensorSignatures": [
+      "NORAD Upgraded Radar Raw Velocity Filters",
+      "USAF F-22A & F-16C Sniper ATP Pods",
+      "AIM-9X Sidewinder Telemetry"
+    ],
+    "primarySources": [
+      "US Department of Defense Press Briefings (Gen. Glen VanHerck)",
+      "Canadian Dept of National Defence"
+    ],
+    "summary": "Following recalibration of NORAD raw radar velocity gates, USAF F-22A and F-16 fighters engaged and shot down three distinct unidentified objects over Alaska, Yukon, and Lake Huron; all debris recovery operations subsequently terminated.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (NORAD Radar Track + USAF Fighter Kinetic Engagements + Official Pentagon Briefings)",
+      "telemetryLog": "Objects described as cylindrical, octagonal, and metallic without visible propulsion, floating at commercial flight altitudes (20,000–40,000 ft).",
+      "falsePositivesEliminated": [
+        "Commercial airliners",
+        "Military target drones (zero squawk and zero active transponders)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2024-SOLAR-AR3664",
+    "collection": "SignalArchive",
+    "timestamp": "2024-05-10T21:00:00Z",
+    "eventDate": "2024-05-10",
+    "title": "Extreme G5 Geomagnetic Superstorm (Active Region 3664)",
+    "category": "Space Weather / Solar Maximum Storm",
+    "domain": "Space Weather",
+    "coordinates": {
+      "lat": 0.0,
+      "lng": 0.0,
+      "alt_ft": 0
+    },
+    "locationName": "Active Region 3664 / Earth Magnetosphere",
+    "severity": "CRITICAL",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "NOAA GOES-16 & 18 Solar Telescopes",
+      "Planetary Kp-Index Sensors (Kp=9)",
+      "Global RTK GNSS Receiver Networks"
+    ],
+    "primarySources": [
+      "NOAA Space Weather Prediction Center (SWPC)",
+      "ESA Space Safety Programme"
+    ],
+    "summary": "Strongest geomagnetic storm in over two decades (G5, Kp=9) triggered by a flurry of X-class flares from AR3664, pushing auroral ovals to tropical latitudes (25 deg N) and disrupting precision agriculture GPS.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Global Ground Magnetometer Arrays + Satellite SOHO/GOES/DSCOVR Telemetry)",
+      "telemetryLog": "Solar wind speed exceeded 900 km/s with interplanetary magnetic field (Bz) plunging below -50 nT for hours. Auroras photographed across Mexico, Bahamas, and Southern Europe.",
+      "falsePositivesEliminated": [
+        "Sensor artifact (validated by every orbital and ground geomagnetic observatory worldwide)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2026-SOLAR-CYCLE25-PEAK",
+    "collection": "SignalArchive",
+    "timestamp": "2026-08-01T12:00:00Z",
+    "eventDate": "2026-08-01",
+    "title": "Solar Cycle 25 Maximum Peak Flare & Low Earth Orbit Atmospheric Drag",
+    "category": "Space Weather / Orbital Decay Telemetry",
+    "domain": "Space Weather & Satellites",
+    "coordinates": {
+      "lat": 0.0,
+      "lng": 0.0,
+      "alt_ft": 1300000
+    },
+    "locationName": "Low Earth Orbit (LEO) / Thermosphere",
+    "severity": "HIGH",
+    "confidenceScore": 0.98,
+    "sensorSignatures": [
+      "CelesTrak Orbital Decay Tracking",
+      "NOAA SWPC GOES Flux",
+      "Space-Track Ephemeris"
+    ],
+    "primarySources": [
+      "NOAA SWPC / NASA Space Weather Cross-Agency Panel",
+      "CelesTrak GP Archives"
+    ],
+    "summary": "Peak Solar Cycle 25 activity produces elevated thermospheric neutral density, increasing satellite orbital decay rates and cross-correlating with multiple high-altitude atmospheric optical spikes.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Orbital Ephemeris + Satellite Drag Telemetry)",
+      "telemetryLog": "LEO mega-constellation collision avoidance maneuvers increased by 300% due to thermospheric expansion driven by persistent X and M-class solar flares.",
+      "falsePositivesEliminated": [
+        "De-orbiting propulsion failure",
+        "Atmospheric baseline noise"
+      ]
+    }
+  }
+]

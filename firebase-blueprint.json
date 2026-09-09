@@ -1,0 +1,325 @@
+{
+  "entities": {
+    "ActiveAgent": {
+      "title": "ActiveAgent",
+      "description": "Represents an operative currently online in the system.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The agent's unique Firebase user ID." },
+        "username": { "type": "string", "description": "The agent's callsign." },
+        "specialty": { "type": "string", "description": "The agent's area of expertise." },
+        "lastSeen": { "type": "object", "description": "Firestore server timestamp of last activity." },
+        "status": { "type": "string", "enum": ["ONLINE", "OFFLINE"], "description": "Current connectivity status." }
+      },
+      "required": ["uid", "username", "lastSeen", "status"]
+    },
+    "SignalLogEntry": {
+      "title": "SignalLogEntry",
+      "description": "A record of an intelligence probe or signal analysis.",
+      "type": "object",
+      "properties": {
+        "operative": { "type": "string", "description": "The agent who performed the probe." },
+        "specialty": { "type": "string", "description": "The agent's specialty at the time." },
+        "query": { "type": "string", "description": "The search or analysis query." },
+        "response": { "type": "string", "description": "The model's response or analysis text." },
+        "groundingUrls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "uri": { "type": "string" },
+              "title": { "type": "string" }
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": ["DEEP_DIVE", "GEO_SCAN", "DAILY_BRIEF", "ARCHIVE_QUERY", "MEDIA_ANALYSIS", "SIGNAL_INTERCEPT", "STRATEGIC_DIRECTIVE", "GLOBAL_SEARCH"],
+          "description": "The category of the signal log."
+        },
+        "timestamp": { "type": "object", "description": "Firestore server timestamp." }
+      },
+      "required": ["operative", "query", "response", "type", "timestamp"]
+    },
+    "ScrapedData": {
+      "title": "ScrapedData",
+      "description": "Data retrieved from external sources via scraping.",
+      "type": "object",
+      "properties": {
+        "query": { "type": "string" },
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "uri": { "type": "string" },
+              "title": { "type": "string" }
+            }
+          }
+        },
+        "rawText": { "type": "string" },
+        "operative": { "type": "string" },
+        "timestamp": { "type": "object" }
+      },
+      "required": ["query", "urls", "operative", "timestamp"]
+    },
+    "UFOSighting": {
+      "title": "UFOSighting",
+      "description": "A user-reported UFO sighting.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "severity": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+        "photoUrl": { "type": "string" },
+        "operative": { "type": "string" },
+        "timestamp": { "type": "object" }
+      },
+      "required": ["title", "date", "location", "description", "category", "severity", "operative", "timestamp"]
+    },
+    "AlertSubscription": {
+      "title": "AlertSubscription",
+      "description": "A user's subscription to specific anomaly alerts.",
+      "type": "object",
+      "properties": {
+        "operative": { "type": "string" },
+        "location": { "type": "string" },
+        "keywords": { "type": "array", "items": { "type": "string" } },
+        "category": { "type": "string" },
+        "timestamp": { "type": "object" }
+      },
+      "required": ["operative", "timestamp"]
+    },
+    "IntelBroadcast": {
+      "title": "IntelBroadcast",
+      "description": "A global intelligence broadcast shared by an operative.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "author": { "type": "string" },
+        "specialty": { "type": "string" },
+        "source": { "type": "string" },
+        "timestamp": { "type": "object" }
+      },
+      "required": ["title", "summary", "author", "timestamp"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile and role information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "client"] },
+        "displayName": { "type": "string" },
+        "username": { "type": "string" },
+        "specialty": { "type": "string" },
+        "sector": { "type": "string" },
+        "clearance": { "type": "string" },
+        "xp": { "type": "number" },
+        "bio": { "type": "string" },
+        "joined": { "type": "number" },
+        "updatedTimestamp": { "type": "number" },
+        "watchwords": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A tactical message shared in the comms channel.",
+      "type": "object",
+      "properties": {
+        "sender": { "type": "string" },
+        "specialty": { "type": "string" },
+        "text": { "type": "string" },
+        "type": { "type": "string", "enum": ["MESSAGE", "INTEL", "ALERT"] },
+        "timestamp": { "type": "object" }
+      },
+      "required": ["sender", "specialty", "text", "type", "timestamp"]
+    },
+    "CaseRecord": {
+      "title": "CaseRecord",
+      "description": "Information about an anomaly investigation case record.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "createdTimestamp": { "type": "number" },
+        "updatedTimestamp": { "type": "number" },
+        "title": { "type": "string" },
+        "category": { "type": "string" },
+        "status": { "type": "string" },
+        "evidenceTier": { "type": "string" },
+        "confidenceScore": { "type": "number" },
+        "location": { "type": "string" },
+        "summary": { "type": "string" },
+        "anomalyReasoning": { "type": "string" },
+        "collaborators": { "type": "array", "items": { "type": "string" } },
+        "lastModifiedBy": { "type": "string" },
+        "artifacts": { "type": "array" },
+        "notes": { "type": "array" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "relatedCaseIds": { "type": "array", "items": { "type": "string" } },
+        "isPublicFeed": { "type": "boolean" }
+      },
+      "required": ["id", "createdTimestamp", "updatedTimestamp", "title", "category", "status", "evidenceTier", "confidenceScore", "summary"]
+    },
+    "IntelReport": {
+      "title": "IntelReport",
+      "description": "In-depth cached intelligence report.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "inDepthAnalysis": { "type": "string" },
+        "groundingUrls": { "type": "array", "items": { "type": "object" } },
+        "timestamp": { "type": "number" },
+        "confidenceScore": { "type": "number" }
+      },
+      "required": ["title", "summary", "inDepthAnalysis", "timestamp", "confidenceScore"]
+    },
+    "GlobalSignal": {
+      "title": "GlobalSignal",
+      "description": "A global signal broadcast in the nexus chat.",
+      "type": "object",
+      "properties": {
+        "sender": { "type": "string" },
+        "role": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "object" }
+      },
+      "required": ["sender", "role", "text", "timestamp"]
+    },
+    "SightingLegacy": {
+      "title": "SightingLegacy",
+      "description": "Legacy sightings data for investigation service lookup.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "location": { "type": "string" }
+      },
+      "required": ["title"]
+    },
+    "CheckoutSession": {
+      "title": "CheckoutSession",
+      "description": "Firebase Extension for Stripe Checkout session request.",
+      "type": "object",
+      "properties": {
+        "price": { "type": "string" },
+        "success_url": { "type": "string" },
+        "cancel_url": { "type": "string" },
+        "mode": { "type": "string" },
+        "url": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "error": { "type": "object" }
+      },
+      "required": ["price", "success_url", "cancel_url"]
+    },
+    "StripeSubscription": {
+      "title": "StripeSubscription",
+      "description": "User subscription record synced by Firebase Stripe Extension.",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" },
+        "role": { "type": "string" },
+        "items": { "type": "array" },
+        "cancel_at_period_end": { "type": "boolean" },
+        "created": { "type": "object" },
+        "current_period_end": { "type": "object" }
+      },
+      "required": ["status"]
+    },
+    "AnomalySubmission": {
+      "title": "AnomalySubmission",
+      "description": "User anomaly submission with observed date, location, evidence, and moderation status.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "dateObserved": { "type": "string" },
+        "location": { "type": "string" },
+        "category": { "type": "string" },
+        "severity": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+        "evidenceLinks": { "type": "array" },
+        "evidenceImages": { "type": "array" },
+        "status": { "type": "string", "enum": ["PENDING_REVIEW", "APPROVED", "REJECTED"] },
+        "submittedBy": { "type": "string" },
+        "submittedAt": { "type": "object" },
+        "reviewedBy": { "type": "string" },
+        "reviewedAt": { "type": "number" },
+        "reviewNotes": { "type": "string" },
+        "credibilityScore": { "type": "number" },
+        "aiAnalysis": { "type": "string" },
+        "isIntegratedIntoMainFeed": { "type": "boolean" }
+      },
+      "required": ["id", "title", "description", "dateObserved", "category", "severity", "status", "submittedBy", "submittedAt"]
+    }
+  },
+  "firestore": {
+    "/AnomalySubmissions/{submissionId}": {
+      "schema": "AnomalySubmission",
+      "description": "User anomaly submissions awaiting or completed review and feed integration."
+    },
+    "/customers/{userId}/checkout_sessions/{sessionId}": {
+      "schema": "CheckoutSession",
+      "description": "Firebase Extension Stripe checkout sessions."
+    },
+    "/customers/{userId}/subscriptions/{subscriptionId}": {
+      "schema": "StripeSubscription",
+      "description": "Firebase Extension Stripe active user subscriptions."
+    },
+    "/ActiveAgents/{userId}": {
+      "schema": "ActiveAgent",
+      "description": "Operative presence tracking."
+    },
+    "/SignalArchive/{logId}": {
+      "schema": "SignalLogEntry",
+      "description": "Permanent storage of intelligence signals."
+    },
+    "/ScrapedData/{dataId}": {
+      "schema": "ScrapedData",
+      "description": "Archive of data scraped from the web."
+    },
+    "/UFOSightings/{sightingId}": {
+      "schema": "UFOSighting",
+      "description": "User-submitted UFO sighting reports."
+    },
+    "/Subscriptions/{subId}": {
+      "schema": "AlertSubscription",
+      "description": "User alert subscriptions."
+    },
+    "/IntelBroadcasts/{intelId}": {
+      "schema": "IntelBroadcast",
+      "description": "Global intelligence broadcasts."
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and roles."
+    },
+    "/TacticalComms/{msgId}": {
+      "schema": "ChatMessage",
+      "description": "Tactical communication messages."
+    },
+    "/CaseRecords/{caseId}": {
+      "schema": "CaseRecord",
+      "description": "Dossier case records of anomalies."
+    },
+    "/IntelReports/{reportId}": {
+      "schema": "IntelReport",
+      "description": "Cached in-depth intelligence reports."
+    },
+    "/GlobalSignals/{signalId}": {
+      "schema": "GlobalSignal",
+      "description": "Global wireless signals tracked dynamically."
+    },
+    "/sightings/{sightingId}": {
+      "schema": "SightingLegacy",
+      "description": "Legacy sightings data accessed by analytics."
+    }
+  }
+}

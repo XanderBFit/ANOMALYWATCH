@@ -1,0 +1,12 @@
+{
+  "name": "Anomaly Watch",
+  "description": "A real-time intelligence assistant tracking UFOs, celestial events, and paranormal activity using advanced AI models.",
+  "requestFramePermissions": [
+    "geolocation",
+    "microphone",
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

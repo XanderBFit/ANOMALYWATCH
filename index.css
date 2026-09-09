@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: "Outfit", sans-serif;
+  --font-serif: "Newsreader", serif;
+
+  --color-ufo-green: #00ff9d;
+  --color-psi-purple: #b026ff;
+  --color-celestial-blue: #00d0ff;
+  --color-warning-amber: #ffaa00;
+  --color-danger-red: #ff2a2a;
+  --color-anomaly-black: #08090a;
+  --color-anomaly-gray: #121417;
+  
+  --spacing-safe-top: env(safe-area-inset-top);
+  --spacing-safe-bottom: env(safe-area-inset-bottom);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-anomaly-black text-slate-300 antialiased overflow-x-hidden selection:bg-ufo-green/30 selection:text-white;
+    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tighter font-display;
+  }
+}
+
+@layer components {
+  .precision-border {
+    @apply border border-white/10;
+  }
+
+  .grid-pattern {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+  }
+
+  .glass-panel {
+    @apply backdrop-blur-3xl border border-white/[0.08] bg-anomaly-gray/60 shadow-2xl transition-all duration-300;
+  }
+  
+  .sleek-card {
+    @apply bg-anomaly-gray/80 border border-white/[0.08] rounded-2xl shadow-2xl transition-all duration-500 hover:border-ufo-green/20;
+  }
+
+  .micro-label {
+    @apply text-[10px] uppercase font-mono tracking-[0.2em] font-bold opacity-50;
+  }
+
+  .data-value {
+    @apply font-mono tracking-tight;
+  }
+
+  .serif-italic {
+    @apply font-serif italic;
+  }
+
+  .content-contain {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 120px;
+    contain: layout style paint;
+  }
+
+  .log-container-optimized {
+    contain: layout;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-black/20;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-ufo-green/20 rounded-full hover:bg-ufo-green/40 transition-colors;
+}
+
+/* Precision Grid Lines */
+.v-line {
+  @apply absolute top-0 bottom-0 w-[1px] bg-white/[0.05];
+}
+
+.h-line {
+  @apply absolute left-0 right-0 h-[1px] bg-white/[0.05];
+}

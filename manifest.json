@@ -1,0 +1,18 @@
+
+{
+  "name": "Anomaly Watch Tactical HUD",
+  "short_name": "AnomalyWatch",
+  "description": "Global Intelligence Uplink for Unexplained Phenomena",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030304",
+  "theme_color": "#00ff9d",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/nolan/512/ufo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
