@@ -7,16 +7,16 @@ import { getAiClient } from "./aiClient";
 const MISSION_CACHE_KEY = 'anomaly_watch_global_directive';
 
 const DEFAULT_DIRECTIVE: MissionDirective = {
-  title: "SYSTEM VIGILANCE AND ANOMALY REVIEW",
-  description: "",
+  title: "ELEVATED MULTI-SPECTRUM VIGILANCE // ACTIVE SECTOR SWEEP",
+  description: "Global sensor arrays have detected clustered electromagnetic and high-altitude transponder deviations across Pacific and Continental air corridors. Field operatives are instructed to prioritize multi-spectral sensor verification and cross-reference USGS seismic telemetry.",
   priorityLevel: 'ALPHA',
-  focusTags: ['MONITORING STABILITY', 'HISTORICAL ANALYSIS', 'PREEMPTION'],
+  focusTags: ['IONOSPHERIC SHEAR', 'UAP TELEMETRY', 'AEROSPACE SWEEP'],
   timestamp: Date.now()
 };
 
 export const StrategyService = {
   /**
-   * [STRATEGIC_SYNTHESIS]: Uses gemini-3-flash-lite-latest for near-instant strategic updates.
+   * [STRATEGIC_SYNTHESIS]: Uses gemini-2.5-flash for real-time strategic updates.
    */
   generateGlobalDirective: async (forceRefresh = false): Promise<MissionDirective> => {
     try {
@@ -24,7 +24,9 @@ export const StrategyService = {
       if (cached && !forceRefresh) {
         try {
           const parsed = JSON.parse(cached);
-          if (Date.now() - parsed.timestamp < 300000) return { ...DEFAULT_DIRECTIVE, ...parsed };
+          if (parsed.description && parsed.description.length > 20 && Date.now() - parsed.timestamp < 15 * 60 * 1000) {
+            return { ...DEFAULT_DIRECTIVE, ...parsed };
+          }
         } catch (e) {
           console.warn("Cached directive corrupted, regenerating...");
         }
@@ -34,19 +36,13 @@ export const StrategyService = {
       const cases = await CaseOps.getAllCases();
       const scraped = await ScrapeOps.getScrapedData(5);
       
-      // If no cases and no scraped data, use the highly specific default
-      if (cases.length === 0 && scraped.length === 0) {
-        localStorage.setItem(MISSION_CACHE_KEY, JSON.stringify(DEFAULT_DIRECTIVE));
-        return DEFAULT_DIRECTIVE;
-      }
-
-      const caseSummary = cases.slice(0, 3).map(c => c.title).join(", ");
-      const scrapeSummary = scraped.map(s => s.query).join(", ");
+      const caseSummary = cases.slice(0, 3).map(c => c.title).join(", ") || "Pacific corridor transponder disruption, high-altitude UAP intercept";
+      const scrapeSummary = scraped.map(s => s.query).join(", ") || "Active atmospheric ionization anomalies";
       const combinedSummary = `Cases: ${caseSummary}. Scraped: ${scrapeSummary}`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.1-flash-lite',
-        contents: `Based on these recent anomaly sightings: "${combinedSummary}", define a 1-sentence "Global Strategic Directive" for the next 24 hours. Output in JSON: { "title": "...", "description": "...", "priorityLevel": "ALPHA|BETA|GAMMA", "focusTags": ["tag1", "tag2"] }`,
+        model: 'gemini-2.5-flash',
+        contents: `Today is ${new Date().toISOString().slice(0, 10)}. Based on these real-time anomaly intercepts: "${combinedSummary}", formulate a crisp, highly authoritative 1-to-2 sentence "Global Strategic Directive" for field operatives and observers over the next 12-24 hours. Output strictly in JSON: { "title": "...", "description": "...", "priorityLevel": "ALPHA|BETA|GAMMA", "focusTags": ["TAG1", "TAG2", "TAG3"] }`,
         config: { responseMimeType: "application/json" }
       });
 

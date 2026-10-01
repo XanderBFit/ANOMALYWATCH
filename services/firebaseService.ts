@@ -397,11 +397,30 @@ export const ArchiveOps = {
         collection(db, "SignalArchive"), 
         where("type", "==", "DAILY_BRIEF"),
         orderBy("timestamp", "desc"), 
-        limit(1)
+        limit(3)
       );
       const snapshot = await getDocs(q);
       if (snapshot.empty) return null;
-      return snapshot.docs[0].data().response;
+      
+      // Find the most recent valid and substantive briefing
+      for (const doc of snapshot.docs) {
+        const data = doc.data();
+        const text = data?.response;
+        const ts = typeof data?.timestamp === 'number' 
+          ? data.timestamp 
+          : (data?.timestamp?.seconds ? data.timestamp.seconds * 1000 : 0);
+        
+        // Discard any corrupted artifact, "caudate putamen" fragment, or overly brief responses
+        if (
+          typeof text === 'string' &&
+          text.trim().length >= 150 &&
+          !text.toLowerCase().includes('caudate putamen') &&
+          Date.now() - ts < 45 * 60 * 1000 // Must be fresh (under 45 min)
+        ) {
+          return text;
+        }
+      }
+      return null;
     } catch (e) {
       console.error("Failed to fetch latest brief", e);
       return null;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { streamDailyBrief, getTrendData, getSocialIntel, queryArchive, getCorrelatedIntel } from '../services/geminiService';
+import { streamDailyBrief, getTrendData, getSocialIntel, queryArchive, getCorrelatedIntel, getFallbackDailyDispatch } from '../services/geminiService';
 import { categorizeAnomaly } from '../services/anomalyService';
 import { StrategyService } from '../services/strategyService';
 import { CaseOps } from '../services/caseOps';
@@ -7,6 +7,9 @@ import { ArchiveOps } from '../services/firebaseService';
 import { fetchCelestialEvents } from '../services/celestialService';
 import Markdown from 'react-markdown';
 import TacticalLoader from './TacticalLoader';
+import { DailyIntelligenceBriefing } from './DailyIntelligenceBriefing';
+import { USGSService } from '../services/usgsService';
+import { AutoIngestService } from '../services/autoIngestService';
 import { AnomalyMap } from './AnomalyMap';
 import TemporalFrequencyChart from './TemporalFrequencyChart';
 import { AnomalyVisualizer } from './AnomalyVisualizer';
@@ -42,7 +45,8 @@ import { InteractiveRadarWidget } from './InteractiveRadarWidget';
 import { EmbedWidgetModal } from './EmbedWidgetModal';
 import { SubmissionOps } from '../services/firebaseService';
 import { normalizeAnomalyCategory } from '../services/anomalyService';
-import { ShieldAlert, ChevronRight, Zap, Radar, Volume2, Radio, Video, Compass, BookOpen, Globe, Flame, Plus, CheckSquare, Activity, Code2, Scan } from 'lucide-react';
+import { chronoEventSketcher } from '../services/chronoEventSketcher';
+import { ShieldAlert, ChevronRight, Zap, Radar, Volume2, Radio, Video, Compass, BookOpen, Globe, Flame, Plus, CheckSquare, Activity, Code2, Scan, RotateCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAudio } from '../contexts/AudioContext';
 
@@ -115,6 +119,11 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
   const [sightings, setSightings] = useState<UFOSighting[]>([]);
   const [verifiedReports, setVerifiedReports] = useState<CaseRecord[]>([]);
 
+  // Real-time Information Gathering & Live Polling State
+  const [lastSyncTime, setLastSyncTime] = useState<Date>(new Date());
+  const [autoSyncCountdown, setAutoSyncCountdown] = useState<number>(180);
+  const [isSyncingTelemetry, setIsSyncingTelemetry] = useState<boolean>(false);
+
   const categoryCounts = React.useMemo(() => {
     const counts: { [key: string]: number } = {
       Scientific: 0,
@@ -186,10 +195,19 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
       return 1;
     };
     return [...filteredSightings].sort((a, b) => {
-      const sDiff = severityWeight(b) - severityWeight(a);
-      if (sDiff !== 0) return sDiff;
       const timeA = typeof a.timestamp === 'number' ? a.timestamp : (a.timestamp?.seconds ? a.timestamp.seconds * 1000 : 0);
       const timeB = typeof b.timestamp === 'number' ? b.timestamp : (b.timestamp?.seconds ? b.timestamp.seconds * 1000 : 0);
+      
+      // Weight freshness: Highlight breaking events from the current cycle or recent days
+      const now = Date.now();
+      const isFreshA = timeA > 0 && (now - timeA) < (7 * 24 * 60 * 60 * 1000);
+      const isFreshB = timeB > 0 && (now - timeB) < (7 * 24 * 60 * 60 * 1000);
+
+      if (isFreshB && !isFreshA) return 1;
+      if (isFreshA && !isFreshB) return -1;
+
+      const sDiff = severityWeight(b) - severityWeight(a);
+      if (sDiff !== 0) return sDiff;
       return timeB - timeA;
     })[0];
   }, [filteredSightings]);
@@ -210,12 +228,15 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
       historicalSeeds.forEach(s => idMap.set(s.id, s));
       categorizedItems.forEach(s => idMap.set(s.id, s));
 
-      setSightings(Array.from(idMap.values()));
+      const combined = Array.from(idMap.values());
+      setSightings(combined);
+      chronoEventSketcher.sketchEvents(combined);
     });
 
     // Fallback if subscription returns immediately empty
     if (sightings.length === 0) {
       setSightings(historicalSeeds);
+      chronoEventSketcher.sketchEvents(historicalSeeds);
     }
 
     return () => unsubscribe();
@@ -245,37 +266,14 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
   }, [briefingText, isPlaying, currentTrackId, playAudio, stopAudio]);
 
   const loadData = useCallback(async (isRefresh = false) => {
-    const hasScanned = localStorage.getItem('anomalyWatch_hasInitialScan');
-    const shouldScan = isRefresh || !hasScanned;
+    const lastScanTs = parseInt(localStorage.getItem('anomalyWatch_last_scan_ts') || '0', 10);
+    const now = Date.now();
+    const isStale = (now - lastScanTs) > (20 * 60 * 1000); // Refresh if older than 20 mins
 
-    if (!shouldScan) {
-      setIsBriefingLoading(true);
-      try {
-        const [brief, socialSig, archiveSig] = await Promise.all([
-          ArchiveOps.getLatestBrief(),
-          ArchiveOps.getLatestSignalByType('MEDIA_ANALYSIS'),
-          ArchiveOps.getLatestSignalByType('ARCHIVE_QUERY')
-        ]);
-        
-        if (brief) {
-          setBriefingText(brief);
-        }
-        if (socialSig) setSocial({ loading: false, data: { text: socialSig.response, groundingUrls: socialSig.groundingUrls } });
-        if (archiveSig) setOverlooked({ loading: false, data: { text: archiveSig.response, groundingUrls: archiveSig.groundingUrls } });
-        
-        const [directiveRes, casesRes] = await Promise.all([
-          StrategyService.generateGlobalDirective(false),
-          CaseOps.getAllCases()
-        ]);
-        setDirective(directiveRes);
-        setCaseCount(casesRes.length || 0);
-        
-      } catch (e) {
-        console.error("Failed to load cached intel", e);
-      } finally {
-        setIsBriefingLoading(false);
-      }
-      return;
+    // Clear corrupted local cached briefs
+    const cachedLocal = localStorage.getItem('anomaly_watch_cached_brief');
+    if (cachedLocal && (cachedLocal.toLowerCase().includes('caudate putamen') || cachedLocal.length < 150)) {
+      localStorage.removeItem('anomaly_watch_cached_brief');
     }
 
     if (isRefresh) {
@@ -284,9 +282,55 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
       setSocial({ loading: true, data: null });
       setOverlooked({ loading: true, data: null });
     }
-    
-    localStorage.setItem('anomalyWatch_hasInitialScan', 'true');
 
+    // 1. LIVE SENSOR SYNCHRONIZATION: Fetch real-time USGS earthquakes & auto-harvest
+    setIsSyncingTelemetry(true);
+    const syncRealTelemetry = async () => {
+      try {
+        const liveQuakes = await USGSService.fetchLiveEarthquakes('all_day');
+        if (liveQuakes && liveQuakes.length > 0) {
+          const notableQuakes = liveQuakes.filter(q => q.mag >= 3.2).slice(0, 6);
+          if (notableQuakes.length > 0) {
+            setSightings(prev => {
+              const idMap = new Map<string, UFOSighting>();
+              prev.forEach(s => idMap.set(s.id, s));
+
+              notableQuakes.forEach(eq => {
+                const sId = `usgs-${eq.id}`;
+                if (!idMap.has(sId)) {
+                  idMap.set(sId, {
+                    id: sId,
+                    title: `Seismic Displacement Event: M${eq.mag} ${eq.place}`,
+                    date: new Date(eq.time).toLocaleDateString(),
+                    location: eq.place,
+                    description: `Automated seismic telemetry sensor logged a magnitude ${eq.mag} disturbance at depth ${eq.depth}km. Multi-spectral sensor correlation active. Coordinates: [${eq.latitude.toFixed(2)}, ${eq.longitude.toFixed(2)}].`,
+                    category: 'Phenomena',
+                    severity: eq.mag >= 5.0 ? 'CRITICAL' : eq.mag >= 4.0 ? 'HIGH' : 'MEDIUM',
+                    timestamp: eq.time,
+                    operative: 'USGS-AUTOMATED-TELEMETRY',
+                    latitude: eq.latitude,
+                    longitude: eq.longitude,
+                    coordinates: { lat: eq.latitude, lng: eq.longitude }
+                  });
+                }
+              });
+              return Array.from(idMap.values());
+            });
+          }
+        }
+
+        // Trigger real telemetry ingestion pass in background
+        AutoIngestService.runAutoIngestionPass();
+      } catch (err) {
+        console.warn("Live telemetry sync background notice:", err);
+      } finally {
+        setIsSyncingTelemetry(false);
+        setLastSyncTime(new Date());
+        setAutoSyncCountdown(180);
+      }
+    };
+
+    // 2. STRATEGIC INTELLIGENCE GATHERING
     const fetchCoreIntel = async () => {
       try {
         const [directiveRes, casesRes] = await Promise.all([
@@ -297,24 +341,46 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
         setDirective(directiveRes);
         setCaseCount(casesRes.length || 0);
 
+        // Check if we already have a recent, high-quality briefing
+        if (!isRefresh && !isStale) {
+          const cachedBrief = await ArchiveOps.getLatestBrief();
+          if (
+            cachedBrief && 
+            cachedBrief.trim().length >= 150 && 
+            !cachedBrief.toLowerCase().includes('caudate putamen')
+          ) {
+            setBriefingText(cachedBrief);
+            setIsBriefingLoading(false);
+            return;
+          }
+        }
+
+        // Live streaming sweep
+        setIsBriefingLoading(true);
         let hasReceived = false;
         let finalBrief = "";
+        
         await streamDailyBrief((chunk) => {
-            if (chunk && chunk.trim().length > 0) {
-              setBriefingText(chunk);
-              finalBrief = chunk;
-              setIsBriefingLoading(false);
-              hasReceived = true;
-            }
+          if (chunk && chunk.trim().length > 0) {
+            setBriefingText(chunk);
+            finalBrief = chunk;
+            setIsBriefingLoading(false);
+            hasReceived = true;
+          }
         });
         
-        if (!hasReceived) {
-           setBriefingText("");
-           setIsBriefingLoading(false);
+        localStorage.setItem('anomalyWatch_last_scan_ts', Date.now().toString());
+
+        if (!hasReceived || finalBrief.trim().length < 150 || finalBrief.toLowerCase().includes('caudate putamen')) {
+          const fallback = getFallbackDailyDispatch();
+          setBriefingText(fallback);
+          setIsBriefingLoading(false);
         }
 
       } catch (e) {
         console.error("Core intel fetch error", e);
+        const fallback = getFallbackDailyDispatch();
+        setBriefingText(fallback);
         setIsBriefingLoading(false);
       }
     };
@@ -336,7 +402,6 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
              type: 'MEDIA_ANALYSIS'
            });
         }
-
       } catch (e) {
         setSocial({ loading: false, data: null });
       }
@@ -360,13 +425,44 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
       }
     };
 
-    fetchCoreIntel();
-    fetchSupportSignals();
-    fetchArchivalIntel();
+    await Promise.all([
+      fetchCoreIntel(),
+      fetchSupportSignals(),
+      fetchArchivalIntel(),
+      syncRealTelemetry()
+    ]);
   }, []);
 
   useEffect(() => { 
     loadData(); 
+  }, [loadData]);
+
+  // Periodic Auto-Sync Timer
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setAutoSyncCountdown(prev => {
+        if (prev <= 1) {
+          loadData(false);
+          return 180;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [loadData]);
+
+  // Window Focus / Visibility Change Listener
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        const lastScan = parseInt(localStorage.getItem('anomalyWatch_last_scan_ts') || '0', 10);
+        if (Date.now() - lastScan > 10 * 60 * 1000) {
+          loadData(false);
+        }
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [loadData]);
 
   useEffect(() => {
@@ -389,6 +485,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
   const handleUnifiedRescan = async () => {
     localStorage.removeItem('anomalyWatch_hasInitialScan');
     localStorage.removeItem('anomaly_watch_cached_brief');
+    localStorage.removeItem('anomalyWatch_last_scan_ts');
     await loadData(true);
   };
 
@@ -414,6 +511,36 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
             />
           )}
 
+          {/* LIVE TELEMETRY & OSINT STATUS BANNER (REAL-TIME SENSOR NETWORK) */}
+          <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2 rounded-xl bg-slate-950/50 border border-white/[0.06] backdrop-blur-sm text-xs font-mono">
+            <div className="flex items-center gap-2.5 text-slate-400">
+              <span className="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Sensors Active
+              </span>
+              <span className="text-white/10">•</span>
+              <span className="text-slate-400">
+                Updated {lastSyncTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+              <span className="text-white/10 hidden sm:inline">•</span>
+              <span className="text-slate-500 hidden sm:inline">
+                Next sweep in {Math.floor(autoSyncCountdown / 60)}:{String(autoSyncCountdown % 60).padStart(2, '0')}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleUnifiedRescan}
+                disabled={isBriefingLoading || isSyncingTelemetry}
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white transition-all cursor-pointer disabled:opacity-50 text-xs"
+                title="Force immediate live telemetry and intelligence sync"
+              >
+                <RotateCw className={`w-3 h-3 text-ufo-green ${isSyncingTelemetry || isBriefingLoading ? 'animate-spin' : ''}`} />
+                <span>{isSyncingTelemetry ? 'Syncing...' : 'Sync Telemetry'}</span>
+              </button>
+            </div>
+          </div>
+
           {/* Header Directive */}
           <motion.section 
             initial={{ opacity: 0, x: -30 }}
@@ -427,27 +554,27 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
                 <span className="font-mono text-[9px] text-slate-500">REF: ANOMALY_{new Date().toLocaleDateString([], { month: '2-digit', day: '2-digit' }).replace(/\//g, '')}</span>
               </div>
               
-              <div className="flex flex-wrap items-center gap-2.5">
+              <div className="flex flex-wrap items-center gap-2">
                 <button 
                   onClick={() => setShowSubmissionModal(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-ufo-green text-black hover:bg-ufo-green/90 transition-all rounded-xl text-[10px] font-mono font-black tracking-widest shadow-[0_0_15px_rgba(0,255,157,0.3)] cursor-pointer"
+                  className="flex items-center gap-1.5 px-3.5 py-1.5 bg-ufo-green text-black hover:bg-ufo-green/90 transition-all rounded-xl text-xs font-mono font-bold tracking-wider cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>[ + SUBMIT ANOMALY ]</span>
+                  <span>Submit Anomaly</span>
                 </button>
 
                 <button 
                   onClick={() => setShowReviewQueueModal(true)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border transition-all text-[10px] font-mono font-bold tracking-widest cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all text-xs font-mono font-medium cursor-pointer ${
                     pendingSubmissionsCount > 0
-                      ? 'bg-red-500/10 border-red-500/40 text-red-400 shadow-[0_0_12px_rgba(239,68,68,0.2)]'
-                      : 'bg-white/[0.02] border-white/10 text-slate-400 hover:border-white/20'
+                      ? 'bg-red-500/10 border-red-500/30 text-red-400'
+                      : 'bg-white/[0.03] border-white/10 text-slate-400 hover:text-white hover:border-white/20'
                   }`}
                 >
                   <CheckSquare className="w-3.5 h-3.5" />
-                  <span>REVIEW QUEUE</span>
+                  <span>Review Queue</span>
                   {pendingSubmissionsCount > 0 && (
-                    <span className="px-1.5 py-0.2 rounded-full bg-red-500 text-black text-[8px] font-bold">
+                    <span className="px-1.5 py-0.2 rounded-full bg-red-500 text-black text-[9px] font-bold">
                       {pendingSubmissionsCount}
                     </span>
                   )}
@@ -456,21 +583,21 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
                 <button 
                   onClick={handleUnifiedRescan}
                   disabled={isBriefingLoading}
-                  className="flex items-center gap-2 px-4 py-2 bg-ufo-green/15 border border-ufo-green/40 hover:bg-ufo-green hover:text-black hover:border-ufo-green transition-all rounded-xl text-[10px] font-mono font-bold tracking-widest disabled:opacity-50 cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.03] border border-white/10 hover:border-ufo-green/40 hover:text-ufo-green text-slate-300 transition-all rounded-xl text-xs font-mono font-medium disabled:opacity-50 cursor-pointer"
                 >
-                  <span className={`w-1.5 h-1.5 rounded-full ${isBriefingLoading ? 'bg-ufo-green animate-ping' : 'bg-ufo-green shadow-[0_0_8px_#00ff9d]'}`}></span>
-                  <span>[ RE-SCAN INTEL ]</span>
+                  <span className={`w-1.5 h-1.5 rounded-full ${isBriefingLoading ? 'bg-ufo-green animate-ping' : 'bg-ufo-green'}`}></span>
+                  <span>Refresh Intel</span>
                 </button>
 
                 <button 
                   onClick={() => setIsFilterActive(!isFilterActive)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border transition-all text-[10px] font-mono font-bold tracking-widest cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all text-xs font-mono cursor-pointer ${
                     isFilterActive 
-                      ? 'bg-ufo-green/10 border-ufo-green/40 text-ufo-green' 
-                      : 'bg-white/[0.02] border-white/10 text-slate-500 hover:border-white/20'
+                      ? 'bg-ufo-green/10 border-ufo-green/30 text-ufo-green font-medium' 
+                      : 'bg-white/[0.03] border-white/10 text-slate-400 hover:border-white/20'
                   }`}
                 >
-                  <span>PERSONALIZATION: {isFilterActive ? 'ON' : 'OFF'}</span>
+                  <span>Filter: {isFilterActive ? 'Personalized' : 'All'}</span>
                 </button>
               </div>
             </div>
@@ -697,111 +824,46 @@ const Dashboard: React.FC<DashboardProps> = ({ setView, specialty, subscriptions
             </section>
           )}
 
-          {/* Intelligence Relay / Decrypted Brief */}
-          <section className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex flex-col">
-                <h3 className="text-xs font-display font-black text-white tracking-[0.3em] uppercase">Intelligence Relay</h3>
-                <span className="font-mono text-[9px] text-ufo-green/50">STATION_DECRYPT_ACTIVE</span>
-              </div>
-              <button 
-                onClick={() => setView('briefing')}
-                className="group flex items-center gap-2 micro-label text-ufo-green hover:opacity-80 transition-opacity"
-              >
-                <span className="text-[10px] font-mono font-bold tracking-widest">[ FULL BRIEFINGS ]</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+          {/* DAILY INTELLIGENCE STRATEGIC DISPATCH (OVERHAULED TACTICAL HUD) */}
+          <section className="space-y-4" id="daily-intelligence-briefing-section">
+            <DailyIntelligenceBriefing
+              briefingText={briefingText}
+              isLoading={isBriefingLoading}
+              onRescan={handleUnifiedRescan}
+              onOpenBriefingRoom={() => setView('briefing')}
+            />
 
-            <div className="glass-panel relative overflow-hidden rounded-3xl flex flex-col border border-white/[0.08]">
-              <AnimatePresence mode="wait">
-                {isBriefingLoading ? (
-                  <motion.div 
-                    key="loader"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="p-16 flex flex-col items-center justify-center min-h-[300px]"
-                  >
-                    <TacticalLoader stage="SWEEPING SECURED CHANNELS..." />
-                  </motion.div>
-                ) : (
-                  <motion.div 
-                    key="content"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex-1 flex flex-col"
-                  >
-                    <div className="px-8 py-4 border-b border-white/[0.08] flex justify-between items-center bg-white/[0.01]">
-                        <div className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-ufo-green shadow-[0_0_8px_#00ff9d]"></div>
-                          <span className="text-[10px] font-mono text-slate-400">Node::Uplink_Encrypted</span>
+            {/* AI Correlated Tracks / Vectors */}
+            <AnimatePresence>
+              {correlatedVectors.length > 0 && !isBriefingLoading && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-5 rounded-2xl bg-slate-900/60 border border-white/10 space-y-3"
+                >
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-3.5 h-3.5 text-celestial-blue" />
+                    <h4 className="text-[10px] font-mono text-celestial-blue uppercase tracking-widest font-black">AI Associated Ground Tracks</h4>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {correlatedVectors.slice(0, 2).map((vector, idx) => (
+                      <button 
+                        key={idx}
+                        onClick={() => setView(vector.suggestedModule || 'briefing', vector.topic)}
+                        className="text-left p-3.5 bg-celestial-blue/5 border border-celestial-blue/20 rounded-xl hover:bg-celestial-blue/10 transition-all cursor-pointer"
+                      >
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[8px] font-mono text-slate-500 uppercase tracking-wider">Associated Link</span>
+                          <span className="text-xs font-display font-bold text-slate-200 uppercase tracking-wider">{vector.topic}</span>
+                          <p className="text-[10px] font-mono text-slate-400 mt-1 line-clamp-1 italic">{vector.reasoning}</p>
                         </div>
-                        <div className="flex items-center gap-4">
-                          <button 
-                            onClick={() => playBriefingAudio()}
-                            disabled={isBriefingLoading}
-                            className={`p-2 rounded-lg border transition-all ${isPlaying && currentTrackId === 'dashboard-brief' ? 'bg-ufo-green border-ufo-green text-black animate-pulse' : 'bg-white/[0.03] border-white/10 text-ufo-green hover:bg-ufo-green/10'}`}
-                          >
-                            <Volume2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                    </div>
-
-                    <div className="p-8 relative flex-1">
-                      <div className="prose prose-invert prose-slate max-w-none prose-p:font-sans prose-p:text-slate-300 prose-p:leading-relaxed prose-strong:text-ufo-green">
-                        <Markdown
-                          components={{
-                            h1: ({node, ...props}) => <h1 className="text-white font-display font-black tracking-tight uppercase border-b border-white/[0.08] pb-4 mb-6 text-xl" {...props} />,
-                            h2: ({node, ...props}) => <h2 className="text-ufo-green font-display font-medium tracking-wide uppercase mt-8 mb-4 text-sm md:text-base border-l border-ufo-green/30 pl-3" {...props} />,
-                            p: ({node, ...props}) => <p className="mb-4 leading-relaxed text-sm font-light text-slate-300" {...props} />,
-                            li: ({node, ...props}) => <li className="mb-2 list-none grid grid-cols-[auto_1fr] gap-3 items-start text-sm font-light text-slate-400">
-                              <span className="text-ufo-green mt-1 text-xs">◆</span>
-                              <span {...props} />
-                            </li>,
-                            strong: ({node, ...props}) => <strong className="text-white font-medium bg-ufo-green/10 px-1 rounded" {...props} />
-                          }}
-                        >
-                          {briefingText}
-                        </Markdown>
-                      </div>
-
-                      {/* Decrypted Vector Nodes */}
-                      <AnimatePresence>
-                        {correlatedVectors.length > 0 && !isBriefingLoading && (
-                          <motion.div 
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="mt-8 pt-6 border-t border-white/10 space-y-4"
-                          >
-                            <div className="flex items-center gap-2">
-                              <Zap className="w-3.5 h-3.5 text-celestial-blue" />
-                              <h4 className="text-[10px] font-mono text-celestial-blue uppercase tracking-widest font-black">AI Associated Tracks</h4>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {correlatedVectors.slice(0, 2).map((vector, idx) => (
-                                <button 
-                                  key={idx}
-                                  onClick={() => setView(vector.suggestedModule || 'briefing', vector.topic)}
-                                  className="text-left p-4 bg-celestial-blue/5 border border-celestial-blue/20 rounded-2xl hover:bg-celestial-blue/10 transition-all relative overflow-hidden"
-                                >
-                                  <div className="flex flex-col gap-1">
-                                    <span className="text-[8px] font-mono text-slate-500 uppercase tracking-wider">Associated Link</span>
-                                    <span className="text-xs font-display font-bold text-slate-200 uppercase tracking-wider">{vector.topic}</span>
-                                    <p className="text-[10px] font-mono text-slate-500 mt-1 line-clamp-1 italic">{vector.reasoning}</p>
-                                  </div>
-                                </button>
-                              ))}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </section>
 
           {/* Trends Dashboard */}

@@ -1,9 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
 import { TacticalCache } from "./cacheService";
 
-// Standardize model name checks to map all text models to ultra-cost-effective gemini-3.1-flash-lite
+// Standardize model name checks to map to high-capacity gemini-3.8-flash
 export const mapModelName = (modelName?: string): string => {
-  if (!modelName) return 'gemini-3.1-flash-lite';
+  if (!modelName) return 'gemini-3.8-flash';
   const model = modelName.trim();
   
   // Preserve dedicated TTS and audio output models
@@ -15,13 +15,28 @@ export const mapModelName = (modelName?: string): string => {
     return model;
   }
 
-  // Preserve image generation model
-  if (model === 'gemini-2.5-flash-image' || model === 'imagen-3.0-generate-002') {
+  // Preserve image generation models
+  if (
+    model === 'gemini-2.5-flash-image' || 
+    model === 'gemini-3.1-flash-lite-image' || 
+    model === 'gemini-3.1-flash-image' || 
+    model === 'imagen-3.0-generate-002'
+  ) {
     return model;
   }
 
-  // Standardize all text analysis, reasoning, and chat models to gemini-3.1-flash-lite
-  return 'gemini-3.1-flash-lite';
+  // If a valid gemini text model was specified, preserve it
+  if (
+    model === 'gemini-3.8-flash' ||
+    model === 'gemini-3.1-flash-lite' ||
+    model === 'gemini-2.5-flash' ||
+    model === 'gemini-3.1-pro-preview'
+  ) {
+    return model;
+  }
+
+  // Default to high-capacity primary model
+  return 'gemini-3.8-flash';
 };
 
 export const getApiKey = (): string => {

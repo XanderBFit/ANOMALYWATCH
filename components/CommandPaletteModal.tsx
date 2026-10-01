@@ -185,6 +185,24 @@ export const CommandPaletteModal: React.FC<CommandPaletteModalProps> = ({
     }
   });
 
+  // Action: Launch Visual Recon Studio ($0 Free Image Gen)
+  const reconKeywords = ['recon', 'image', 'flir', 'satellite', 'sar', 'thermal', 'photo', 'flux', 'picture', 'visual', 'generate'];
+  const reconQueryMatches = !query || reconKeywords.some(k => query.toLowerCase().includes(k));
+  if (reconQueryMatches) {
+    allItems.push({
+      id: 'tool-recon-studio',
+      type: 'VIEW',
+      category: 'NAV',
+      title: 'Tactical Visual Recon Studio ($0 Free AI Imagery)',
+      subtitle: 'Zero-cost FLIR thermal, Synthetic Aperture Radar & Flux-Schnell optical satellite diffusion',
+      badge: '$0 RECON AI',
+      action: () => {
+        window.dispatchEvent(new CustomEvent('toggle-recon-studio'));
+        onClose();
+      }
+    });
+  }
+
   // Filter by category tab
   const filteredItems = activeCategory === 'ALL'
     ? allItems

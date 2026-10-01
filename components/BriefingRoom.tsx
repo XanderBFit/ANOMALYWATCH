@@ -145,11 +145,22 @@ const BriefingRoom: React.FC<BriefingRoomProps> = ({ initialQuery, setView }) =>
         try {
           const { content, date, owner } = JSON.parse(cached);
           const today = new Date().toDateString();
+          // Purge corrupted/short/caudate putamen briefs
+          if (
+            !content || 
+            content.trim().length < 150 || 
+            content.toLowerCase().includes('caudate putamen')
+          ) {
+            localStorage.removeItem(BRIEF_CACHE_KEY);
+            return false;
+          }
+
           if (date === today && owner === username && !initialQuery) {
             setReport(content);
             return true;
           }
         } catch (e) {
+          localStorage.removeItem(BRIEF_CACHE_KEY);
           return false;
         }
       }

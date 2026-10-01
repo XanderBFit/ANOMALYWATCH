@@ -416,15 +416,25 @@ export function calculateAnomalyTrendAnalysis(sightings: UFOSighting[], timeRang
 
   const targetList = activeSightings.length > 0 ? activeSightings : sightings;
 
-  // 1. Time-series aggregation by day
+  // 1. Time-series aggregation (by Year if multi-year > 365 days, otherwise by Day)
+  const isMultiYear = timeRangeDays > 365;
   const dayBuckets: { [key: string]: { Scientific: number; Economic: number; Social: number; Geopolitical: number; Cultural: number; Other: number; total: number; timestamp: number } } = {};
   
-  // Initialize buckets for the date range
-  const daysToGenerate = Math.min(timeRangeDays, 30);
-  for (let i = daysToGenerate - 1; i >= 0; i--) {
-    const d = new Date(now - i * 24 * 60 * 60 * 1000);
-    const key = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    dayBuckets[key] = { Scientific: 0, Economic: 0, Social: 0, Geopolitical: 0, Cultural: 0, Other: 0, total: 0, timestamp: d.getTime() };
+  if (isMultiYear) {
+    const startYear = Math.max(1996, new Date(now - timeRangeDays * 24 * 60 * 60 * 1000).getFullYear());
+    const endYear = new Date(now).getFullYear();
+    for (let yr = startYear; yr <= endYear; yr++) {
+      const key = `${yr}`;
+      dayBuckets[key] = { Scientific: 0, Economic: 0, Social: 0, Geopolitical: 0, Cultural: 0, Other: 0, total: 0, timestamp: new Date(yr, 0, 1).getTime() };
+    }
+  } else {
+    // Initialize buckets for the date range
+    const daysToGenerate = Math.min(timeRangeDays, 30);
+    for (let i = daysToGenerate - 1; i >= 0; i--) {
+      const d = new Date(now - i * 24 * 60 * 60 * 1000);
+      const key = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      dayBuckets[key] = { Scientific: 0, Economic: 0, Social: 0, Geopolitical: 0, Cultural: 0, Other: 0, total: 0, timestamp: d.getTime() };
+    }
   }
 
   const categoryCounts: { [cat: string]: number } = {
@@ -442,7 +452,7 @@ export function calculateAnomalyTrendAnalysis(sightings: UFOSighting[], timeRang
   targetList.forEach(s => {
     const ts = typeof s.timestamp === 'number' ? s.timestamp : (s.timestamp?.seconds ? s.timestamp.seconds * 1000 : (s.date ? new Date(s.date).getTime() : now));
     const d = new Date(ts);
-    const key = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const key = isMultiYear ? `${d.getFullYear()}` : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     const normalizedCat = normalizeAnomalyCategory(s.category);
 
     if (s.severity === 'CRITICAL') criticalCount++;
@@ -553,6 +563,34 @@ export function calculateAnomalyTrendAnalysis(sightings: UFOSighting[], timeRang
       locations: ['North America', 'Western Europe', 'East Asia'],
       historicalPrecedents: ['2021 Synthetic Bot Swarm Disinformation Campaign'],
       recommendedAction: 'Execute semantic graph clustering and bot network signature triangulation.'
+    },
+    {
+      id: 'PAT-CYC-05',
+      name: 'Solar Cycle Decadal Harmonic (11-Year Solar Maximum Inversion)',
+      category: 'Scientific',
+      patternType: 'DIURNAL_CYCLE',
+      cadence: '11-Year Schwabe Solar Cycle / 22-Year Hale Magnetic Reversal',
+      frequency: Math.max(3, Math.round(categoryCounts['Scientific'] * 0.3)),
+      avgImpactScore: 96,
+      confidence: 97,
+      description: 'Recurring multi-sensor correlation between peak solar flare & CME frequency and sudden surges in trans-polar radar clutter, orbital LEO satellite drag, and high-latitude ionospheric acoustic ducting.',
+      locations: ['Global Magnetosphere', 'High-Latitude Auroral Ovals', 'Low Earth Orbit (LEO)'],
+      historicalPrecedents: ['2003 Halloween Solar Superstorm (X28+)', '2024 AR3664 G5 Superstorm (Kp=9)', '2026 Cycle 25 Maximum Peak'],
+      recommendedAction: 'Engage orbital ephemeris decay alerts and SWPC magnetometer divergence tracking.'
+    },
+    {
+      id: 'PAT-CYC-06',
+      name: 'Carrier Strike Group Warning Area Aerospace Incursion Corridor',
+      category: 'Geopolitical',
+      patternType: 'CROSS_DOMAIN_SURGE',
+      cadence: 'Episodic Multi-Day Fleet Deployment Incursions',
+      frequency: Math.max(4, Math.round(categoryCounts['Geopolitical'] * 0.4)),
+      avgImpactScore: 95,
+      confidence: 96,
+      description: 'Persistent multi-sensor tracking (AESA pulse-Doppler, ATFLIR electro-optical, shipboard passive sonar) concentrated in offshore military warning complexes. Targets exhibit instantaneous supersonic acceleration, zero thermal plume, and seamless transmedium oceanic entry.',
+      locations: ['Warning Area W-291 (SoCal)', 'Warning Area W-72 (Virginia Capes)', 'English Channel Corridor'],
+      historicalPrecedents: ['2004 USS Nimitz Tic Tac', '2007 Alderney Dual Airliner', '2015 USS Roosevelt Gimbal/GoFast', '2019 USS Omaha Swarm', '2021 ODNI 144 Military Sensor Report'],
+      recommendedAction: 'Maintain multi-static AESA radar fusion, synchronized EO/IR pods, and submarine passive acoustic logging.'
     }
   ];
 

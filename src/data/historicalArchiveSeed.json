@@ -387,7 +387,7 @@
     "collection": "SignalArchive",
     "timestamp": "1989-03-13T07:44:00Z",
     "eventDate": "1989-03-13",
-    "title": "Hydro-Québec Power Grid Geomagnetic Storm Collapse",
+    "title": "Hydro-Qu\u00e9bec Power Grid Geomagnetic Storm Collapse",
     "category": "Space Weather / Geomagnetic Grid Failure",
     "domain": "Space Weather & Power Grid",
     "coordinates": {
@@ -399,12 +399,12 @@
     "severity": "CRITICAL",
     "confidenceScore": 1.0,
     "sensorSignatures": [
-      "Hydro-Québec Static Var Compensator Telemetry",
+      "Hydro-Qu\u00e9bec Static Var Compensator Telemetry",
       "GOES-7 Magnetometer",
       "USGS Magnetic Observatories"
     ],
     "primarySources": [
-      "Hydro-Québec Official Incident Report",
+      "Hydro-Qu\u00e9bec Official Incident Report",
       "NOAA Space Weather Prediction Center"
     ],
     "summary": "Severe G5 geomagnetic storm induced ground telluric currents that saturated transformer cores and tripped circuit breakers, plunging 6 million people into total electrical blackout within 90 seconds.",
@@ -448,6 +448,41 @@
       "falsePositivesEliminated": [
         "F-117A Nighthawk Stealth Fighter (Belgium confirmed no stealth missions; F-117 cannot execute 40G vertical dives)",
         "Atmospheric thermal ducting (target evaded and broke lock actively)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-1996-VARGINHA-RADAR",
+    "collection": "CaseRecords",
+    "timestamp": "1996-01-20T18:30:00Z",
+    "eventDate": "1996-01-20",
+    "title": "Varginha Aerospace Thermal & Airborne Incursion",
+    "category": "UAP / Aerospace Intercept",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": -21.5514,
+      "lng": -45.4303,
+      "alt_ft": 4500
+    },
+    "locationName": "Varginha, Minas Gerais, Brazil",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.94,
+    "sensorSignatures": [
+      "CINDACTA I Air Defense Primary Radar",
+      "Brazilian Air Force (FAB) Airspace Control",
+      "Infrared Airborne Reconnaissance"
+    ],
+    "primarySources": [
+      "Brazilian Air Force Official Declassified Files (FAB)",
+      "Varginha Regional Fire Department & Military Police Dispatch"
+    ],
+    "summary": "Multi-agency tracking of an anomalous low-altitude decelerating object tracked by CINDACTA I air defense radar, followed by rapid deployment of Brazilian Army ESA (Escola de Sargentos das Armas) cordons and specialized transport.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Military Air Defense Radar + Inter-Agency Ground Recovery Operations)",
+      "telemetryLog": "CINDACTA I registered anomalous low-altitude, non-transponder radar track descending toward rural Varginha at speeds dropping abruptly from 450 knots to hovering.",
+      "falsePositivesEliminated": [
+        "Civilian aircraft (no clearance or transponder active)",
+        "Weather balloon (ground recovery operations confirmed non-synthetic organic materials)"
       ]
     }
   },
@@ -519,6 +554,41 @@
     }
   },
   {
+    "id": "CASE-2000-ILLINOIS-TRIANGLE",
+    "collection": "CaseRecords",
+    "timestamp": "2000-01-05T04:10:00Z",
+    "eventDate": "2000-01-05",
+    "title": "St. Clair County Multi-Jurisdictional Triangle Radar Corridor",
+    "category": "UAP / Radar Corridor",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 38.627,
+      "lng": -89.91,
+      "alt_ft": 1000
+    },
+    "locationName": "Highland / Lebanon / Shiloh, Illinois, USA",
+    "severity": "HIGH",
+    "confidenceScore": 0.97,
+    "sensorSignatures": [
+      "Scott Air Force Base Control Tower Radar",
+      "FAA St. Louis Terminal Radar (ASR-9)",
+      "Multi-Department Police Tactical Radio Dispatch"
+    ],
+    "primarySources": [
+      "National Institute for Discovery Science (NIDS) Investigation",
+      "Illinois State Police Incident Transcripts & Audio Recordings"
+    ],
+    "summary": "Massive two-story triangular aerial craft displaying multiple intense light arrays tracked across four police jurisdictions (Highland, Lebanon, Shiloh, Millstadt) adjacent to Scott AFB, flying at sub-50 knot velocities with zero acoustic signature.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Multi-Police Eye-Witness + FAA St. Louis Primary Radar Tracks)",
+      "telemetryLog": "Target tracked flying southwest along Route 4 at altitudes varying between 500 and 1,000 feet. Silent propulsion verified by six independent law enforcement officers.",
+      "falsePositivesEliminated": [
+        "Conventional aircraft (silent low-altitude flight at 30-40 mph impossible for fixed-wing airframe)",
+        "Helicopter (zero rotor blade acoustic signature registered)"
+      ]
+    }
+  },
+  {
     "id": "CASE-2003-HALLOWEEN-SOLAR",
     "collection": "SignalArchive",
     "timestamp": "2003-10-28T11:10:00Z",
@@ -585,6 +655,111 @@
       "falsePositivesEliminated": [
         "Drones / Black project airframes (aerodynamic acceleration and lack of thermal signature violates current aerospace engineering limits)",
         "Radar glitch (confirmed simultaneously on Aegis combat system, airborne E-2C, and optical FLIR)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2006-OHARE-GATE-C17",
+    "collection": "CaseRecords",
+    "timestamp": "2006-11-07T16:15:00Z",
+    "eventDate": "2006-11-07",
+    "title": "Chicago O'Hare Gate C17 Metallic Disk Rapid Punch-Hole Incursion",
+    "category": "UAP / Commercial Aviation Intercept",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 41.9742,
+      "lng": -87.9073,
+      "alt_ft": 1900
+    },
+    "locationName": "Chicago O'Hare International Airport, Illinois, USA",
+    "severity": "HIGH",
+    "confidenceScore": 0.96,
+    "sensorSignatures": [
+      "FAA Surface Movement Radar Tape Data",
+      "United Airlines Flight Operations Center Radio Logs",
+      "Meteorological Weather Doppler Profilers"
+    ],
+    "primarySources": [
+      "FAA FOIA Disclosure Documents",
+      "Chicago Tribune Investigative Report (Jon Hilkevitch)"
+    ],
+    "summary": "A spinning dark metallic spheroidal disk hovered motionless directly above United Airlines Terminal 1 Gate C17 for minutes before accelerating vertically at extreme velocity, leaving a distinct circular punched hole through the dense 1,900-foot overcast cloud deck.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Commercial Pilots + Ramp Mechanics + ATC Transcripts + Meteorological Radar Profiling)",
+      "telemetryLog": "Instantaneous vertical climb from 1,900 ft to beyond radar ceiling within 1.2 seconds. Punch-hole through dense altocumulus deck remained visible for over 14 minutes.",
+      "falsePositivesEliminated": [
+        "Weather inversion hole-punch cloud (localized hole occurred without freezing precipitation or turboprop seeding)",
+        "Commercial drone (extreme supersonic vertical escape trajectory)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2007-ALDERNEY-DUAL-AIRLINER",
+    "collection": "CaseRecords",
+    "timestamp": "2007-04-23T14:18:00Z",
+    "eventDate": "2007-04-23",
+    "title": "Alderney Channel Islands Dual Commercial Airliner Visual-Radar Intercept",
+    "category": "UAP / Commercial Aviation Intercept",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 49.7122,
+      "lng": -2.2078,
+      "alt_ft": 4000
+    },
+    "locationName": "Alderney, English Channel, United Kingdom",
+    "severity": "HIGH",
+    "confidenceScore": 0.95,
+    "sensorSignatures": [
+      "Jersey Air Traffic Control Primary Radar",
+      "Aurigny Trislander Flight 544 Cockpit Radar",
+      "Brittany Coastal Marine Primary Surveillance Radar"
+    ],
+    "primarySources": [
+      "UK Civil Aviation Authority (CAA) Air Incident Report",
+      "Jersey Airport Air Traffic Control Audio Tapes"
+    ],
+    "summary": "Two independent commercial passenger aircraft captains (Aurigny Flight 544 and Blue Islands airline) and passengers observed two brilliant stationary cigar-shaped yellow-gold objects up to a mile in length over the Channel, corroborated by Jersey ATC primary radar returns.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Dual Independent Commercial Cockpits + ATC Radar Returns)",
+      "telemetryLog": "Targets remained stationary against 30-knot headwinds at 4,000 ft before disappearing instantaneously from primary radar coverage.",
+      "falsePositivesEliminated": [
+        "Atmospheric mirage (dual reciprocal visual angles separated by 25 nautical miles)",
+        "Military flare or chaff (corroborated stationary primary radar hit)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2008-STEPHENVILLE-RADES",
+    "collection": "CaseRecords",
+    "timestamp": "2008-01-08T18:15:00Z",
+    "eventDate": "2008-01-08",
+    "title": "Stephenville Military Restricted Corridor Radar Incursion",
+    "category": "UAP / Military Range Incursion",
+    "domain": "Aerospace",
+    "coordinates": {
+      "lat": 32.2207,
+      "lng": -98.2023,
+      "alt_ft": 4200
+    },
+    "locationName": "Stephenville & Erath County, Texas, USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.98,
+    "sensorSignatures": [
+      "84th Radar Evaluation Squadron (RADES) Primary Data",
+      "FAA Caron Long-Range Radar (ARSR-4)",
+      "USAF F-16 Falcon Interceptor Sortie Transponders"
+    ],
+    "primarySources": [
+      "USAF 84th RADES Raw Radar Tapes (FOIA Released)",
+      "FAA Fort Worth Center Air Traffic Audio"
+    ],
+    "summary": "Multiple law enforcement and civilian witnesses observed a mile-wide craft flying without transponder toward the President's Crawford Ranch, confirmed by declassified USAF 84th RADES radar records showing an unidentifiable primary target tracked at speeds up to 2,100 mph while USAF F-16 fighters shadowed it.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (84th RADES Raw Surveillance Radar + FAA Long-Range Radar Data + USAF Interceptor Sorties)",
+      "telemetryLog": "Target recorded on radar maneuvering at 1,900-2,100 mph without producing sonic booms. Radar cross section (RCS) indicated target exceeded dimensions of conventional aircraft.",
+      "falsePositivesEliminated": [
+        "USAF F-16 aircraft (F-16s tracked simultaneously on separate transponder beacon codes 10 miles behind object)",
+        "Ground clutter or radar chaff (continuous track over 60 miles across multiple military radar heads)"
       ]
     }
   },
@@ -717,7 +892,7 @@
       "US Department of Defense (DoD) Declassified Videos",
       "Navy Aviator Testimonies (Lt. Ryan Graves)"
     ],
-    "summary": "Navy Super Hornets operating off USS Theodore Roosevelt captured footage of 'Gimbal'—a saucer-like object flying against 120-knot winds that rotated on its axis—and 'GoFast', skimmed low over ocean waters with zero thermal exhaust plume.",
+    "summary": "Navy Super Hornets operating off USS Theodore Roosevelt captured footage of 'Gimbal'\u2014a saucer-like object flying against 120-knot winds that rotated on its axis\u2014and 'GoFast', skimmed low over ocean waters with zero thermal exhaust plume.",
     "caseDossier": {
       "evidenceTier": "Tier-1 (AESA Phased Array Radar + Targeting FLIR Pod Tapes + Declassified DOD Release)",
       "telemetryLog": "Objects observed remaining on station for 12+ hours with no visible propulsion or thermal exhaust plumes, maneuvering inside active military Warning Area W-72.",
@@ -759,6 +934,113 @@
       "falsePositivesEliminated": [
         "Standard comet (Spitzer IR telescope detected zero carbon-based gas emissions)",
         "Solar System asteroid (eccentricity e=1.20 proved hyperbolic interstellar origin)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2019-SAN-DIEGO-SWARM",
+    "collection": "CaseRecords",
+    "timestamp": "2019-07-15T05:22:00Z",
+    "eventDate": "2019-07-15",
+    "title": "USS Omaha & Navy Destroyer Fleet Multi-Sensor Oceanic Swarm",
+    "category": "UAP / Maritime Submersible",
+    "domain": "Aerospace & Maritime",
+    "coordinates": {
+      "lat": 32.55,
+      "lng": -118.4,
+      "alt_ft": 1500
+    },
+    "locationName": "San Diego Warning Area W-291, California, USA",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.99,
+    "sensorSignatures": [
+      "AN/SPY-1D Phased Array Combat Radar",
+      "AN/SPS-73 Surface Search Marine Radar",
+      "Shipboard Combat Information Center (CIC) EO/IR FLIR",
+      "Subsurface Passive Sonar Arrays"
+    ],
+    "primarySources": [
+      "US Navy Deck Logs (USS Kidd, USS Rafael Peralta, USS John Finn)",
+      "Pentagon UAP Task Force Briefing Slides (Declassified)"
+    ],
+    "summary": "Up to 14 unidentified aeronaval craft surrounded multiple US Navy Arleigh Burke guided-missile destroyers over successive nights in restricted offshore military airspace, exhibiting prolonged loitering times (4+ hours), transmedium water entry, and absence of thermal exhaust signatures.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Aegis Combat System Phased Array Radar + Shipboard Thermal FLIR + Sonar Acoustic Sensor Logs)",
+      "telemetryLog": "Spherical object tracked flying at 130 knots before slowing and entering the Pacific Ocean with zero splash debris and zero subsequent acoustic wreckage signatures detected by submarine sonar.",
+      "falsePositivesEliminated": [
+        "Commercial quadcopters (flight duration over 4 hours 100 miles offshore exceeding battery capabilities)",
+        "Foreign reconnaissance aircraft (zero RF communication uplink or electronic warfare emission detected)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2020-MAGNETAR-FRB",
+    "collection": "SignalArchive",
+    "timestamp": "2020-04-28T14:34:24Z",
+    "eventDate": "2020-04-28",
+    "title": "First Galactic Fast Radio Burst & Hard X-Ray Magnetar Spike (SGR 1935+2154)",
+    "category": "Space Weather / Radio Astrophysics",
+    "domain": "Deep Space RF Anomaly",
+    "coordinates": {
+      "lat": 0.0,
+      "lng": 0.0,
+      "alt_ft": 0
+    },
+    "locationName": "Magnetar SGR 1935+2154 / Vulpecula Constellation",
+    "severity": "HIGH",
+    "confidenceScore": 1.0,
+    "sensorSignatures": [
+      "CHIME Fast Radio Burst Radio Array",
+      "STARE2 Radio Telescope Array",
+      "Fermi GBM Gamma-Ray Burst Monitor",
+      "Insight-HXMT Hard X-ray Modulation Telescope"
+    ],
+    "primarySources": [
+      "Nature 587, 54-58 (2020) Collaborative Study",
+      "NASA High Energy Astrophysics Science Archive Research Center"
+    ],
+    "summary": "Ground-breaking detection of an ultra-bright millisecond radio burst originating within our own galaxy, coincident with a hard X-ray flare from magnetar SGR 1935+2154, confirming magnetars as potent sources of cosmological Fast Radio Bursts (FRBs).",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (Multi-Observatory Radio Interferometer + Spaceborne X-ray Telescopes)",
+      "telemetryLog": "Burst fluences exceeded 1.5 megajansky-milliseconds, tens of thousands of times brighter than any previously observed radio pulse from a galactic source.",
+      "falsePositivesEliminated": [
+        "Terrestrial peryton RF interference (coincident temporal detection across North American radio arrays and Chinese orbital X-ray satellite)"
+      ]
+    }
+  },
+  {
+    "id": "CASE-2021-ODNI-MILITARY-CORRIDOR",
+    "collection": "CaseRecords",
+    "timestamp": "2021-06-25T17:00:00Z",
+    "eventDate": "2021-06-25",
+    "title": "ODNI Range Complex Verified 144 Military Sensor Intercept Corridor",
+    "category": "UAP / Military Range Incursion",
+    "domain": "Aerospace & Defense",
+    "coordinates": {
+      "lat": 36.8508,
+      "lng": -75.9779,
+      "alt_ft": 25000
+    },
+    "locationName": "Virginia Beach Warning Area W-72 / Military Operating Areas",
+    "severity": "CRITICAL",
+    "confidenceScore": 0.99,
+    "sensorSignatures": [
+      "APG-79 Active Electronically Scanned Array (AESA)",
+      "Raytheon ATFLIR Pods",
+      "Joint Helmet Mounted Cueing Systems (JHMCS)",
+      "Shore-Based Range Monitoring Radars"
+    ],
+    "primarySources": [
+      "Office of the Director of National Intelligence (ODNI) Preliminary Assessment",
+      "US Navy Safety Center Hazard Reports (HAZREPs)"
+    ],
+    "summary": "Declassified intelligence assessment confirming 144 military UAP incidents between 2004 and 2021 across US training ranges. 80 cases demonstrated multi-sensor verification (radar, infrared, electro-optical, visual), with 18 objects displaying breakthrough physical characteristics.",
+    "caseDossier": {
+      "evidenceTier": "Tier-1 (All-Source Defense Intelligence + Multi-Sensor Military Fighter Telemetry)",
+      "telemetryLog": "Objects observed remaining stationary aloft in high-altitude winds, moving against the wind, maneuvering abruptly, or moving at considerable speed without discernable means of propulsion.",
+      "falsePositivesEliminated": [
+        "Airborne clutter or birds (velocity and radar cross section validated by AESA pulse Doppler gates)",
+        "Secret US classified programs (ODNI confirmed objects did not belong to US government inventory)"
       ]
     }
   },
@@ -825,7 +1107,7 @@
     "summary": "Following recalibration of NORAD raw radar velocity gates, USAF F-22A and F-16 fighters engaged and shot down three distinct unidentified objects over Alaska, Yukon, and Lake Huron; all debris recovery operations subsequently terminated.",
     "caseDossier": {
       "evidenceTier": "Tier-1 (NORAD Radar Track + USAF Fighter Kinetic Engagements + Official Pentagon Briefings)",
-      "telemetryLog": "Objects described as cylindrical, octagonal, and metallic without visible propulsion, floating at commercial flight altitudes (20,000–40,000 ft).",
+      "telemetryLog": "Objects described as cylindrical, octagonal, and metallic without visible propulsion, floating at commercial flight altitudes (20,000\u201340,000 ft).",
       "falsePositivesEliminated": [
         "Commercial airliners",
         "Military target drones (zero squawk and zero active transponders)"

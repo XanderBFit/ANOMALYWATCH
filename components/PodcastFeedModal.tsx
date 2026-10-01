@@ -14,6 +14,7 @@ import {
   Sparkles, 
   ExternalLink 
 } from 'lucide-react';
+import { useAudio } from '../contexts/AudioContext';
 
 interface PodcastFeedModalProps {
   isOpen: boolean;
@@ -31,7 +32,9 @@ export const PodcastFeedModal: React.FC<PodcastFeedModalProps> = ({
   const isSubscriber = userClearance === 'OPERATIVE' || userClearance === 'ANALYST';
 
   const [copiedRss, setCopiedRss] = useState(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const { isPlaying, currentTrackId, playAudio, stopAudio } = useAudio();
+  const trackId = 'podcast-preview-stream';
+  const isPlayingAudio = isPlaying && currentTrackId === trackId;
 
   if (!isOpen) return null;
 
@@ -50,22 +53,10 @@ export const PodcastFeedModal: React.FC<PodcastFeedModalProps> = ({
     }
 
     if (isPlayingAudio) {
-      setIsPlayingAudio(false);
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+      stopAudio();
     } else {
-      setIsPlayingAudio(true);
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const text = "Anomaly Watch Tactical Audio Briefing for August 14. Primary global radar telemetry indicates quiet geomagnetic activity with a Kp-index of 3.2. Solar wind velocity is currently stable at 420 kilometers per second. OpenSky ADS-B transponder filters recorded zero unverified airframes in restricted airspace over Nevada during the last 6 hour surveillance cycle. End of audio brief.";
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 1.0;
-        utterance.pitch = 0.9;
-        utterance.onend = () => setIsPlayingAudio(false);
-        utterance.onerror = () => setIsPlayingAudio(false);
-        window.speechSynthesis.speak(utterance);
-      }
+      const text = "Anomaly Watch Tactical Audio Briefing for August 14. Primary global radar telemetry indicates quiet geomagnetic activity with a K-p-index of 3.2. Solar wind velocity is currently stable at 420 kilometers per second. OpenSky A-D-S-B transponder filters recorded zero unverified airframes in restricted airspace over Nevada during the last 6 hour surveillance cycle. End of audio brief.";
+      playAudio(text, trackId, 'Podcast Briefing Preview');
     }
   };
 

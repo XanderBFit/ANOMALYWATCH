@@ -143,7 +143,7 @@ export async function executeBatchSeed(): Promise<{ success: boolean; seededCoun
       console.log(`[HISTORICAL_SEED]: Successfully committed ${operationCount} records in Firestore batch!`);
     }
 
-    localStorage.setItem("anomalyWatch_historical_seed_v1", "COMPLETED");
+    localStorage.setItem("anomalyWatch_historical_seed_v2", "COMPLETED");
     return { success: true, seededCount: historicalArchiveData.length };
   } catch (error) {
     console.error("[HISTORICAL_SEED_ERROR]: Batch write failed", error);
@@ -156,7 +156,7 @@ export async function executeBatchSeed(): Promise<{ success: boolean; seededCoun
 }
 
 /**
- * Maps all 26 historical seed items into UFOSighting records for radar map & timeline rendering.
+ * Maps all historical seed items into UFOSighting records for radar map & timeline rendering.
  */
 export function getHistoricalSeedSightings(): UFOSighting[] {
   return historicalArchiveData.map((item) => {
@@ -201,7 +201,7 @@ export function getHistoricalSeedSightings(): UFOSighting[] {
  */
 export async function autoRunBatchSeedIfNeeded(): Promise<void> {
   try {
-    const seedStatus = typeof window !== 'undefined' ? localStorage.getItem("anomalyWatch_historical_seed_v1") : null;
+    const seedStatus = typeof window !== 'undefined' ? localStorage.getItem("anomalyWatch_historical_seed_v2") : null;
     if (!seedStatus) {
       console.log("[HISTORICAL_SEED]: Initializing automatic batch write for historical archives...");
       await executeBatchSeed();

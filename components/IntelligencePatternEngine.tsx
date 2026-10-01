@@ -59,12 +59,13 @@ import { CaseOps } from '../services/caseOps';
 import { TacticalCache } from '../services/cacheService';
 import { getAiClient } from '../services/aiClient';
 import { ClientComputeEngine } from '../services/clientComputeEngine';
+import { getHistoricalSeedSightings } from '../services/seedService';
 import { UFOSighting, CaseRecord } from '../types';
 import { AwButton, AwEmblem } from './AwButton';
 
 export type DataFeedMode = 'REAL_TIME' | 'HISTORICAL' | 'COMBINED';
 export type CategoryFilter = 'ALL' | 'UFO / UAP' | 'Paranormal' | 'Cryptid' | 'Gov / Black Ops' | 'Telepathy' | 'Phenomena';
-export type TimeWindow = '24H' | '7D' | '30D' | '1Y' | 'ALL';
+export type TimeWindow = '24H' | '7D' | '30D' | '1Y' | '30Y' | 'ALL';
 
 interface CorrelationVectorData {
   factor: string;
@@ -156,22 +157,31 @@ export const IntelligencePatternEngine: React.FC<IntelligencePatternEngineProps>
     loadDataFeeds();
   };
 
-  // Construct Historical Archive Dataset from Firestore Case Records
+  // Construct Historical Archive Dataset from Historical Seed Sightings + Firestore Case Records
   const syntheticHistoricalBaseline: UFOSighting[] = useMemo(() => {
-    // Convert historical cases from Firestore into UFOSighting format if present
-    const casesAsSightings: UFOSighting[] = historicalCases.map((c, idx) => ({
-      id: c.id || `hist-case-${idx}`,
-      title: c.title,
-      date: new Date(c.createdTimestamp || Date.now()).toLocaleDateString(),
-      location: c.location || c.tags?.[0] || 'Unspecified Archive Node',
-      description: c.summary,
-      category: (c.category as any) || 'Phenomena',
-      severity: c.status === 'New Lead' ? 'HIGH' : 'MEDIUM',
-      timestamp: c.createdTimestamp || Date.now() - 86400000 * 30,
-      operative: c.lastModifiedBy || 'ARCHIVE'
-    }));
+    const historicalSeeds = getHistoricalSeedSightings();
+    const idMap = new Map<string, UFOSighting>();
+    historicalSeeds.forEach(s => idMap.set(s.id, s));
 
-    return casesAsSightings;
+    // Convert historical cases from Firestore into UFOSighting format if present
+    historicalCases.forEach((c, idx) => {
+      const id = c.id || `hist-case-${idx}`;
+      if (!idMap.has(id)) {
+        idMap.set(id, {
+          id,
+          title: c.title,
+          date: new Date(c.createdTimestamp || Date.now()).toLocaleDateString(),
+          location: c.location || c.tags?.[0] || 'Unspecified Archive Node',
+          description: c.summary,
+          category: (c.category as any) || 'Phenomena',
+          severity: c.status === 'New Lead' ? 'HIGH' : 'MEDIUM',
+          timestamp: c.createdTimestamp || Date.now() - 86400000 * 30,
+          operative: c.lastModifiedBy || 'ARCHIVE'
+        });
+      }
+    });
+
+    return Array.from(idMap.values());
   }, [historicalCases]);
 
   // Combine Active Datasets based on Feed Mode
@@ -212,6 +222,16 @@ export const IntelligencePatternEngine: React.FC<IntelligencePatternEngineProps>
       dataset = dataset.filter(s => {
         const ts = typeof s.timestamp === 'number' ? s.timestamp : (s.timestamp?.seconds ? s.timestamp.seconds * 1000 : now);
         return now - ts <= 30 * 24 * 60 * 60 * 1000;
+      });
+    } else if (timeWindow === '1Y') {
+      dataset = dataset.filter(s => {
+        const ts = typeof s.timestamp === 'number' ? s.timestamp : (s.timestamp?.seconds ? s.timestamp.seconds * 1000 : now);
+        return now - ts <= 365.25 * 24 * 60 * 60 * 1000;
+      });
+    } else if (timeWindow === '30Y') {
+      dataset = dataset.filter(s => {
+        const ts = typeof s.timestamp === 'number' ? s.timestamp : (s.timestamp?.seconds ? s.timestamp.seconds * 1000 : now);
+        return now - ts <= 30 * 365.25 * 24 * 60 * 60 * 1000;
       });
     }
 
@@ -651,8 +671,8 @@ Captured on ${new Date(timestamp).toLocaleString()}`;
           <label className="text-[10px] font-mono uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
             <Clock className="w-3 h-3 text-cyan-400" /> TEMPORAL SPAN
           </label>
-          <div className="grid grid-cols-5 gap-1 bg-black/80 p-1 rounded-lg border border-white/10">
-            {(['24H', '7D', '30D', '1Y', 'ALL'] as TimeWindow[]).map(tw => (
+          <div className="grid grid-cols-6 gap-1 bg-black/80 p-1 rounded-lg border border-white/10">
+            {(['24H', '7D', '30D', '1Y', '30Y', 'ALL'] as TimeWindow[]).map(tw => (
               <button
                 key={tw}
                 onClick={() => setTimeWindow(tw)}

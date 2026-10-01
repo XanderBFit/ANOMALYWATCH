@@ -19,24 +19,30 @@ import {
   Flame,
   Plane,
   Sun,
-  Activity
+  Activity,
+  Camera
 } from 'lucide-react';
 import { UFOSighting } from '../types';
+import { useAudio } from '../contexts/AudioContext';
 
 interface CaseDossierInspectorProps {
   sighting: UFOSighting | null;
   onClose: () => void;
   onTriangulate?: (sighting: UFOSighting) => void;
   onOpenMediaStudio?: (sighting: UFOSighting) => void;
+  onOpenVisualRecon?: (sighting: UFOSighting) => void;
 }
 
 export const CaseDossierInspector: React.FC<CaseDossierInspectorProps> = ({
   sighting,
   onClose,
   onTriangulate,
-  onOpenMediaStudio
+  onOpenMediaStudio,
+  onOpenVisualRecon
 }) => {
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const { isPlaying, currentTrackId, playAudio, stopAudio } = useAudio();
+  const trackId = sighting ? `dossier-${sighting.id}` : 'dossier-unknown';
+  const isThisPlaying = isPlaying && currentTrackId === trackId;
 
   if (!sighting) return null;
 
@@ -56,22 +62,11 @@ export const CaseDossierInspector: React.FC<CaseDossierInspectorProps> = ({
   ];
 
   const toggleAudioSpeech = () => {
-    if (isPlayingAudio) {
-      setIsPlayingAudio(false);
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+    if (isThisPlaying) {
+      stopAudio();
     } else {
-      setIsPlayingAudio(true);
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const text = `Case Dossier ${caseId}. Incident Title: ${incidentTitle}. Location: ${locationText}. Sensor correlation score is ${confidenceScore} percent. Conventional civil aviation and satellite orbital passes have been cleared. Gemini AI synthesis indicates an uncorrelated geospatial anomaly return.`;
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.rate = 1.0;
-        utterance.onend = () => setIsPlayingAudio(false);
-        utterance.onerror = () => setIsPlayingAudio(false);
-        window.speechSynthesis.speak(utterance);
-      }
+      const narrative = `Case Dossier ${caseId}. Incident Title: ${incidentTitle}. Location: ${locationText}. Sensor correlation score is ${confidenceScore} percent. Conventional civil aviation and satellite orbital passes have been cleared. Gemini AI synthesis indicates an uncorrelated geospatial anomaly return. Operational assessment: ${sighting.description || 'Non-ballistic radar track detected.'}`;
+      playAudio(narrative, trackId, `Dossier: ${incidentTitle}`);
     }
   };
 
@@ -212,14 +207,14 @@ export const CaseDossierInspector: React.FC<CaseDossierInspectorProps> = ({
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={toggleAudioSpeech}
-              className={`py-2.5 rounded-xl font-bold text-xs uppercase flex items-center justify-center gap-1.5 transition-all ${
-                isPlayingAudio 
-                  ? 'bg-rose-500 text-white' 
+              className={`py-2.5 rounded-xl font-bold text-xs uppercase flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                isThisPlaying 
+                  ? 'bg-rose-500 text-white shadow-[0_0_12px_rgba(244,63,94,0.4)]' 
                   : 'bg-white/10 hover:bg-white/20 text-white'
               }`}
             >
-              <Volume2 className="w-4 h-4" />
-              <span>{isPlayingAudio ? 'STOP VOICE' : 'PLAY VOICE'}</span>
+              <Volume2 className={`w-4 h-4 ${isThisPlaying ? 'animate-pulse' : ''}`} />
+              <span>{isThisPlaying ? 'HALT VOICE' : 'PLAY VOICE'}</span>
             </button>
 
             <button
@@ -230,6 +225,20 @@ export const CaseDossierInspector: React.FC<CaseDossierInspectorProps> = ({
               <span>TRIANGULATE</span>
             </button>
           </div>
+
+          <button
+            onClick={() => {
+              if (onOpenVisualRecon) {
+                onOpenVisualRecon(sighting);
+              } else {
+                window.dispatchEvent(new CustomEvent('toggle-recon-studio', { detail: { sighting } }));
+              }
+            }}
+            className="w-full py-2.5 rounded-xl bg-ufo-green/20 hover:bg-ufo-green/30 text-ufo-green border border-ufo-green/50 text-xs font-bold uppercase flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(0,255,157,0.15)] cursor-pointer"
+          >
+            <Camera className="w-4 h-4" />
+            <span>GENERATE RECON CAPTURE ($0)</span>
+          </button>
 
           {onOpenMediaStudio && (
             <button

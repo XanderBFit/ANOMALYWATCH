@@ -130,7 +130,8 @@ export const AnomalyTrendAnalysis: React.FC<AnomalyTrendAnalysisProps> = ({
             { label: '7 Days', days: 7 },
             { label: '30 Days', days: 30 },
             { label: '90 Days', days: 90 },
-            { label: 'All-Time', days: 365 }
+            { label: '1 Year', days: 365 },
+            { label: '30 Years (1996–2026)', days: 10957 }
           ].map(tf => (
             <button
               key={tf.days}

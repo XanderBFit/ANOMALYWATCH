@@ -156,4 +156,5 @@ const TacticalLoader: React.FC<TacticalLoaderProps> = ({ stage = 'Synchronizing.
   );
 };
 
+export { TacticalLoader };
 export default TacticalLoader;

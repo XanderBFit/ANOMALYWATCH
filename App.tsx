@@ -23,6 +23,7 @@ import { autoRunBatchSeedIfNeeded } from './services/seedService';
 import { KeyboardShortcutsModal } from './components/KeyboardShortcutsModal';
 import { GeofencedAlertModal } from './components/GeofencedAlertModal';
 import { InteractiveRadarWidget } from './components/InteractiveRadarWidget';
+import { VisualReconStudioModal } from './components/VisualReconStudioModal';
 
 // Lazy-loaded heavy components for code splitting & smaller initial bundle size
 const Dashboard = lazy(() => import('./components/Dashboard'));
@@ -67,6 +68,8 @@ const App: React.FC = () => {
   const [showPersonalization, setShowPersonalization] = useState(false);
   const [showShortcutsModal, setShowShortcutsModal] = useState(false);
   const [showGeofenceModal, setShowGeofenceModal] = useState(false);
+  const [showReconStudio, setShowReconStudio] = useState(false);
+  const [reconSightingContext, setReconSightingContext] = useState<any>(null);
   const [userSubscriptions, setUserSubscriptions] = useState<AlertSubscription[]>([]);
   const [isUplinked, setIsUplinked] = useState<boolean>(() => {
     return typeof window !== 'undefined' && sessionStorage.getItem('anomalyWatch_session_active') === 'true';
@@ -207,15 +210,23 @@ const App: React.FC = () => {
 
     const handleToggleShortcuts = () => setShowShortcutsModal(prev => !prev);
     const handleToggleGeofence = () => setShowGeofenceModal(prev => !prev);
+    const handleToggleRecon = (e?: any) => {
+      if (e?.detail?.sighting) {
+        setReconSightingContext(e.detail.sighting);
+      }
+      setShowReconStudio(prev => !prev);
+    };
 
     window.addEventListener('keydown', handleGlobalKeyDown);
     window.addEventListener('toggle-shortcuts-modal', handleToggleShortcuts);
     window.addEventListener('toggle-geofence-modal', handleToggleGeofence);
+    window.addEventListener('toggle-recon-studio', handleToggleRecon);
 
     return () => {
       window.removeEventListener('keydown', handleGlobalKeyDown);
       window.removeEventListener('toggle-shortcuts-modal', handleToggleShortcuts);
       window.removeEventListener('toggle-geofence-modal', handleToggleGeofence);
+      window.removeEventListener('toggle-recon-studio', handleToggleRecon);
     };
   }, []);
 
@@ -370,6 +381,16 @@ const App: React.FC = () => {
           onNeedUpgrade={() => {}}
         />
 
+        {/* Zero-Cost Tactical Visual Reconnaissance Studio Modal ($0 Free AI Image Gen) */}
+        <VisualReconStudioModal
+          isOpen={showReconStudio}
+          onClose={() => {
+            setShowReconStudio(false);
+            setReconSightingContext(null);
+          }}
+          sightingContext={reconSightingContext}
+        />
+
         <main className={`transition-all duration-300 ${isNavCollapsed ? 'lg:ml-20 md:ml-20' : 'lg:ml-80 md:ml-20'} pt-16 px-3 sm:px-6 md:px-8 lg:px-12 relative z-10 min-h-[100dvh] pb-32 md:pb-36 overflow-y-auto custom-scrollbar`}>
           <div className="max-w-[1700px] mx-auto space-y-4">
             <SpaceWeatherBar />
@@ -380,6 +401,10 @@ const App: React.FC = () => {
               specialty={specialty}
               onOpenGeofence={() => setShowGeofenceModal(true)}
               onOpenShortcuts={() => setShowShortcutsModal(true)}
+              onOpenReconStudio={() => {
+                setReconSightingContext(null);
+                setShowReconStudio(true);
+              }}
             />
             <Suspense fallback={<ViewLoadingFallback />}>
               {currentView === 'dashboard' && <Dashboard setView={(v, f) => handleSetView(v as AppView, { filter: f })} specialty={specialty} subscriptions={userSubscriptions} />}

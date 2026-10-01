@@ -251,15 +251,25 @@ export const AnomalyMap: React.FC<AnomalyMapProps> = ({ sightings: initialSighti
   }, [seismicFeedPeriod]);
 
   useEffect(() => {
-    // Flight data from OpenSky API
-    fetch('https://opensky-network.org/api/states/all?lamin=30&lomin=-120&lamax=50&lomax=-70')
+    // Flight data from local telemetry proxy with resilient corridor fallback
+    fetch('/api/telemetry/flights?lamin=30&lomin=-120&lamax=50&lomax=-70')
       .then(res => {
-        if (!res.ok) return [];
+        if (!res.ok) return { states: [] };
         return res.json();
       })
-      .then(data => setFlightData(data.states || []))
-      .catch(err => {
-        // Silent block for API restrictions
+      .then(data => {
+        if (data && Array.isArray(data.states) && data.states.length > 0) {
+          setFlightData(data.states);
+        } else {
+          RealWorldDataService.fetchLiveFlights({ minLat: 30, minLng: -120, maxLat: 50, maxLng: -70 })
+            .then(flights => setFlightData(flights || []))
+            .catch(() => {});
+        }
+      })
+      .catch(() => {
+        RealWorldDataService.fetchLiveFlights({ minLat: 30, minLng: -120, maxLat: 50, maxLng: -70 })
+          .then(flights => setFlightData(flights || []))
+          .catch(() => {});
       });
 
     // NASA EONET Natural Event Tracker
@@ -1005,22 +1015,29 @@ export const AnomalyMap: React.FC<AnomalyMapProps> = ({ sightings: initialSighti
                   );
                 })}
 
-                {showFlights && flightData.map((f, i) => (
-                  <CircleMarker
-                    key={`flight-${i}`}
-                    center={[f[6], f[5]]}
-                    radius={2}
-                    pathOptions={{ color: '#06b6d4', fillColor: '#0891b2', fillOpacity: 0.8 }}
-                  >
-                    <Popup>
-                      <div className="font-mono text-[11px] p-1">
-                        <div className="text-cyan-400 font-bold uppercase tracking-wider mb-1">Active Flight Tracker</div>
-                        <div className="text-white">Callsign: <span className="font-bold text-white">{f[1] || 'COMM_UPLINK'}</span></div>
-                        <div className="text-slate-400 mt-1">Speed Index: {Math.round(f[9] || 0)}m/s</div>
-                      </div>
-                    </Popup>
-                  </CircleMarker>
-                ))}
+                {showFlights && flightData.map((f, i) => {
+                  const lat = Array.isArray(f) ? f[6] : f.latitude;
+                  const lng = Array.isArray(f) ? f[5] : f.longitude;
+                  const callsign = Array.isArray(f) ? (f[1]?.trim() || 'COMM_UPLINK') : (f.callsign || 'COMM_UPLINK');
+                  const speed = Math.round((Array.isArray(f) ? f[9] : f.velocity) || 0);
+                  if (typeof lat !== 'number' || typeof lng !== 'number' || isNaN(lat) || isNaN(lng)) return null;
+                  return (
+                    <CircleMarker
+                      key={`flight-${i}`}
+                      center={[lat, lng]}
+                      radius={2}
+                      pathOptions={{ color: '#06b6d4', fillColor: '#0891b2', fillOpacity: 0.8 }}
+                    >
+                      <Popup>
+                        <div className="font-mono text-[11px] p-1">
+                          <div className="text-cyan-400 font-bold uppercase tracking-wider mb-1">Active Flight Tracker</div>
+                          <div className="text-white">Callsign: <span className="font-bold text-white">{callsign}</span></div>
+                          <div className="text-slate-400 mt-1">Speed Index: {speed}m/s</div>
+                        </div>
+                      </Popup>
+                    </CircleMarker>
+                  );
+                })}
 
                 {showRf && rfData.map((r, i) => (
                   <CircleMarker
